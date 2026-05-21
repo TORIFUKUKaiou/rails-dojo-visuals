@@ -134,7 +134,8 @@ const LESSONS: Lesson[] = [
     ],
     steps: [
       { line: 0, message: '最初は3つのデータが入っています。' },
-      { line: 2, message: '<< は、配列の最後にデータを追加します。' },
+      { line: 2, message: '03行で、追加する値「うどん」を確認します。まだ配列には入っていません。' },
+      { line: 2, message: '同じ03行で、配列の最後に「うどん」を追加します。' },
       { line: 4, message: '05行で、1つ目の「カレー」を取り出します。' },
       { line: 5, message: '06行で「カレー」を表示します。', console: ['カレー'] },
       { line: 4, message: '05行に戻り、2つ目の「ラーメン」を取り出します。', console: ['カレー'] },
@@ -636,12 +637,12 @@ function OverwriteVisual({ step }: { step: number }) {
 }
 
 function AppendVisual({ step }: { step: number }) {
-  const items = step >= 1 ? [...foods, 'うどん'] : foods;
-  const eachIndex = step >= 2 ? Math.min(Math.floor((step - 2) / 2), items.length - 1) : -1;
-  const activeIndex = eachIndex >= 0 ? eachIndex : step === 1 ? items.length - 1 : -1;
+  const items = step >= 2 ? [...foods, 'うどん'] : foods;
+  const eachIndex = step >= 3 ? Math.min(Math.floor((step - 3) / 2), items.length - 1) : -1;
+  const activeIndex = eachIndex >= 0 ? eachIndex : step === 2 ? items.length - 1 : -1;
   return (
     <div className="center-stack">
-      <ArrayBlocks items={items} activeIndex={activeIndex} appended={step === 1} />
+      <ArrayBlocks items={items} activeIndex={activeIndex} appended={step === 2} />
       <AnimatePresence mode="wait">
         {step < 2 && (
           <motion.div

@@ -1,6 +1,6 @@
 {
-  "name": "Ruby Loop Animator",
-  "description": "An interactive Ruby visualizer for teaching loops, arrays, and conditional logic with real-time state tracking and syntax highlighting.",
+  "name": "Rails Dojo Visuals",
+  "description": "Interactive visual teaching aids for Rails Dojo lessons.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

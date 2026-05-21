@@ -1,20 +1,40 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Rails Dojo Visuals
 
-# Run and deploy your AI Studio app
+Rails Dojo の授業で使う補助ビジュアル教材です。
 
-This contains everything you need to run your app locally.
+初学者が、コードの実行順、変数の変化、配列やループの動きを目で追えるようにすることを目的にしています。
 
-View your app in AI Studio: https://ai.studio/apps/518313e9-a016-4178-a680-52727bef715a
+## 現在の内容
 
-## Run Locally
+- Year 1 / Week 05: 配列、`each`、`sum`、`length`、範囲、条件分岐
 
-**Prerequisites:**  Node.js
+## 必要なもの
 
+- Node.js
+- npm
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## ローカルで動かす
+
+```bash
+npm install
+npm run dev
+```
+
+ブラウザで開きます。
+
+```text
+http://localhost:3000/
+```
+
+## 確認
+
+```bash
+npm run lint
+npm run build
+```
+
+## 開発メモ
+
+このリポジトリの設計方針は [AGENTS.md](AGENTS.md) にまとめています。
+
+Visualizer を追加・修正するときは、対応する教材 Markdown の説明やコード例と食い違わないようにしてください。
