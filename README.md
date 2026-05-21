@@ -33,6 +33,18 @@ npm run lint
 npm run build
 ```
 
+## GitHub Pages
+
+`main` ブランチへ push すると、GitHub Actions で `npm run build` が実行され、`dist/` が GitHub Pages に公開されます。
+
+GitHub のリポジトリ設定では、Settings -> Pages -> Build and deployment -> Source を `GitHub Actions` にしてください。
+
+公開URL:
+
+```text
+https://TORIFUKUKaiou.github.io/rails-dojo-visuals/
+```
+
 ## 開発メモ
 
 このリポジトリの設計方針は [AGENTS.md](AGENTS.md) にまとめています。
