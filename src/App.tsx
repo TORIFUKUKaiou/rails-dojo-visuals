@@ -109,7 +109,8 @@ const LESSONS: Lesson[] = [
     ],
     steps: [
       { line: 0, message: '最初は「カレー」「ラーメン」「寿司」です。' },
-      { line: 2, message: 'foods[1] は2番目です。「ラーメン」を「うどん」に書き換えます。' },
+      { line: 2, message: 'foods[1] は2番目です。まず「ラーメン」が入っている場所を確認します。' },
+      { line: 2, message: '同じ03行で、「ラーメン」を「うどん」に上書きします。' },
       { line: 4, message: '0番目を表示します。', console: ['カレー'] },
       { line: 5, message: '1番目は、書き換え後の「うどん」です。', console: ['カレー', 'うどん'] },
       { line: 6, message: '2番目の「寿司」はそのままです。', console: ['カレー', 'うどん', '寿司'] },
@@ -134,8 +135,15 @@ const LESSONS: Lesson[] = [
     steps: [
       { line: 0, message: '最初は3つのデータが入っています。' },
       { line: 2, message: '<< は、配列の最後にデータを追加します。' },
-      { line: 4, message: 'each で、追加後の配列を先頭から見ていきます。' },
-      { line: 5, message: '4つの食べ物が順番に表示されます。', console: ['カレー', 'ラーメン', '寿司', 'うどん'] },
+      { line: 4, message: '05行で、1つ目の「カレー」を取り出します。' },
+      { line: 5, message: '06行で「カレー」を表示します。', console: ['カレー'] },
+      { line: 4, message: '05行に戻り、2つ目の「ラーメン」を取り出します。', console: ['カレー'] },
+      { line: 5, message: '06行で「ラーメン」を表示します。', console: ['カレー', 'ラーメン'] },
+      { line: 4, message: '05行に戻り、3つ目の「寿司」を取り出します。', console: ['カレー', 'ラーメン'] },
+      { line: 5, message: '06行で「寿司」を表示します。', console: ['カレー', 'ラーメン', '寿司'] },
+      { line: 4, message: '05行に戻り、追加した「うどん」を取り出します。', console: ['カレー', 'ラーメン', '寿司'] },
+      { line: 5, message: '06行で「うどん」を表示します。', console: ['カレー', 'ラーメン', '寿司', 'うどん'] },
+      { line: 6, message: '4つの食べ物をすべて取り出しました。', console: ['カレー', 'ラーメン', '寿司', 'うどん'] },
     ],
   },
   {
@@ -154,11 +162,13 @@ const LESSONS: Lesson[] = [
     ],
     steps: [
       { line: 0, message: '配列には3つの食べ物が入っています。' },
-      { line: 2, message: 'each は、中身を1つずつ取り出す繰り返しです。' },
-      { line: 3, message: '|food| に「カレー」が入って、puts されます。', console: ['カレー'] },
-      { line: 3, message: '|food| に「ラーメン」が入って、puts されます。', console: ['カレー', 'ラーメン'] },
-      { line: 3, message: '|food| に「寿司」が入って、puts されます。', console: ['カレー', 'ラーメン', '寿司'] },
-      { line: 4, message: '配列の最後まで取り出したので、繰り返しは終わります。' },
+      { line: 2, message: '03行で、1つ目の「カレー」を取り出します。' },
+      { line: 3, message: '04行で「カレー」を表示します。', console: ['カレー'] },
+      { line: 2, message: '03行に戻り、2つ目の「ラーメン」を取り出します。', console: ['カレー'] },
+      { line: 3, message: '04行で「ラーメン」を表示します。', console: ['カレー', 'ラーメン'] },
+      { line: 2, message: '03行に戻り、3つ目の「寿司」を取り出します。', console: ['カレー', 'ラーメン'] },
+      { line: 3, message: '04行で「寿司」を表示します。', console: ['カレー', 'ラーメン', '寿司'] },
+      { line: 4, message: '配列の最後まで取り出したので、繰り返しは終わります。', console: ['カレー', 'ラーメン', '寿司'] },
     ],
   },
   {
@@ -181,10 +191,15 @@ const LESSONS: Lesson[] = [
     steps: [
       { line: 0, message: '点数の配列を用意します。' },
       { line: 1, message: 'total は合計を入れる変数です。最初は0です。' },
-      { line: 3, message: '1つ目の点数 80 を取り出します。' },
-      { line: 4, message: 'total に 80 を足します。0 + 80 = 80', console: ['total: 0 + 80 = 80'] },
-      { line: 4, message: '次に 55 を足します。80 + 55 = 135', console: ['total: 0 + 80 = 80', 'total: 80 + 55 = 135'] },
-      { line: 4, message: '最後に 100 を足します。135 + 100 = 235', console: ['total: 0 + 80 = 80', 'total: 80 + 55 = 135', 'total: 135 + 100 = 235'] },
+      { line: 3, message: '04行で、1つ目の点数 80 を score に入れます。' },
+      { line: 4, message: '05行で total + score、つまり 0 + 80 を計算します。' },
+      { line: 4, message: '計算結果の 80 で total を上書きします。', console: ['total: 0 + 80 = 80'] },
+      { line: 3, message: '04行に戻り、2つ目の点数 55 を score に入れます。', console: ['total: 0 + 80 = 80'] },
+      { line: 4, message: '05行で total + score、つまり 80 + 55 を計算します。', console: ['total: 0 + 80 = 80'] },
+      { line: 4, message: '計算結果の 135 で total を上書きします。', console: ['total: 0 + 80 = 80', 'total: 80 + 55 = 135'] },
+      { line: 3, message: '04行に戻り、3つ目の点数 100 を score に入れます。', console: ['total: 0 + 80 = 80', 'total: 80 + 55 = 135'] },
+      { line: 4, message: '05行で total + score、つまり 135 + 100 を計算します。', console: ['total: 0 + 80 = 80', 'total: 80 + 55 = 135'] },
+      { line: 4, message: '計算結果の 235 で total を上書きします。', console: ['total: 0 + 80 = 80', 'total: 80 + 55 = 135', 'total: 135 + 100 = 235'] },
       { line: 7, message: '合計は235点です。', console: ['合計：235点'] },
     ],
   },
@@ -199,35 +214,46 @@ const LESSONS: Lesson[] = [
       'scores = [80, 55, 100]',
       '',
       'total = scores.sum',
-      'average = total / scores.length',
+      'length = scores.length',
+      'average = total / length',
       '',
       'puts "平均：#{average}点"',
     ],
     steps: [
       { line: 0, message: '3つの点数を配列にまとめます。' },
       { line: 2, message: 'scores.sum は、配列の中の数をまとめて合計します。' },
-      { line: 3, message: 'scores.length は、配列の個数を数えます。235 / 3 = 78 です。' },
-      { line: 5, message: '今回は整数同士の割り算なので、小数点以下は出ません。', console: ['平均：78点'] },
+      { line: 3, message: 'scores.length は、配列の個数を数えます。length に 3 を入れます。' },
+      { line: 4, message: 'total / length、つまり 235 / 3 で平均を計算します。' },
+      { line: 6, message: '今回は整数同士の割り算なので、小数点以下は出ません。', console: ['平均：78点'] },
     ],
   },
   {
     id: 'range',
     short: '範囲',
-    title: '1..10 は範囲',
+    title: '1..5 は範囲',
     lead: '連続した数字を順番に使いたいときは、配列ではなく範囲が向いています。',
     icon: ArrowRight,
     accent: 'teal',
     code: [
-      'r = 1..10',
+      'r = 1..5',
       '',
       'r.each do |number|',
       '  puts number',
       'end',
     ],
     steps: [
-      { line: 0, message: '1..10 は、1から10までという意味です。' },
-      { line: 2, message: '範囲にも each が使えます。' },
-      { line: 3, message: 'number に 1, 2, 3 ... と順番に入ります。', console: ['1', '2', '3', '...', '10'] },
+      { line: 0, message: '1..5 は、1から5までという意味です。' },
+      { line: 2, message: '03行で、範囲から 1 を取り出します。' },
+      { line: 3, message: '04行で 1 を表示します。', console: ['1'] },
+      { line: 2, message: '03行に戻り、次の 2 を取り出します。', console: ['1'] },
+      { line: 3, message: '04行で 2 を表示します。', console: ['1', '2'] },
+      { line: 2, message: '03行に戻り、次の 3 を取り出します。', console: ['1', '2'] },
+      { line: 3, message: '04行で 3 を表示します。', console: ['1', '2', '3'] },
+      { line: 2, message: '03行に戻り、次の 4 を取り出します。', console: ['1', '2', '3'] },
+      { line: 3, message: '04行で 4 を表示します。', console: ['1', '2', '3', '4'] },
+      { line: 2, message: '03行に戻り、次の 5 を取り出します。', console: ['1', '2', '3', '4'] },
+      { line: 3, message: '04行で 5 を表示します。', console: ['1', '2', '3', '4', '5'] },
+      { line: 4, message: 'ここでは5まで見ました。教材では同じ動きで10まで続きます。', console: ['1', '2', '3', '4', '5'] },
     ],
   },
   {
@@ -250,10 +276,16 @@ const LESSONS: Lesson[] = [
     ],
     steps: [
       { line: 0, message: '点数を配列で持ちます。' },
-      { line: 2, message: 'each で1つずつ点数を取り出します。' },
-      { line: 3, message: '80 >= 60 は true なので合格です。', console: ['80点：合格'] },
-      { line: 3, message: '55 >= 60 は false なので不合格です。', console: ['80点：合格', '55点：不合格'] },
-      { line: 3, message: '100 >= 60 は true なので合格です。', console: ['80点：合格', '55点：不合格', '100点：合格'] },
+      { line: 2, message: '03行で、1つ目の点数 80 を score に入れます。' },
+      { line: 3, message: '04行で 80 >= 60 を判定します。結果は true です。' },
+      { line: 4, message: 'true なので合格のルートに入り、05行で表示します。', console: ['80点：合格'] },
+      { line: 2, message: '03行に戻り、2つ目の点数 55 を score に入れます。', console: ['80点：合格'] },
+      { line: 3, message: '04行で 55 >= 60 を判定します。結果は false です。', console: ['80点：合格'] },
+      { line: 6, message: 'false なので不合格のルートに入り、07行で表示します。', console: ['80点：合格', '55点：不合格'] },
+      { line: 2, message: '03行に戻り、3つ目の点数 100 を score に入れます。', console: ['80点：合格', '55点：不合格'] },
+      { line: 3, message: '04行で 100 >= 60 を判定します。結果は true です。', console: ['80点：合格', '55点：不合格'] },
+      { line: 4, message: 'true なので合格のルートに入り、05行で表示します。', console: ['80点：合格', '55点：不合格', '100点：合格'] },
+      { line: 8, message: '配列の最後まで判定したので、繰り返しは終わります。', console: ['80点：合格', '55点：不合格', '100点：合格'] },
     ],
   },
 ];
@@ -580,22 +612,22 @@ function IndexVisual({ step }: { step: number }) {
 }
 
 function OverwriteVisual({ step }: { step: number }) {
-  const items = step >= 1 ? ['カレー', 'うどん', '寿司'] : foods;
-  const printIndex = step >= 2 ? step - 2 : -1;
+  const items = step >= 2 ? ['カレー', 'うどん', '寿司'] : foods;
+  const printIndex = step >= 3 ? step - 3 : -1;
   const activeIndex = printIndex >= 0 ? printIndex : step >= 1 ? 1 : -1;
   return (
     <div className="center-stack">
-      <ArrayBlocks items={items} activeIndex={activeIndex} replacedIndex={step === 1 ? 1 : -1} />
+      <ArrayBlocks items={items} activeIndex={activeIndex} replacedIndex={step === 1 || step === 2 ? 1 : -1} />
       <AnimatePresence mode="wait">
-        {step < 2 && (
+        {step < 3 && (
           <motion.div
-            key={step >= 1 ? 'after' : 'before'}
+            key={step >= 2 ? 'after' : 'before'}
             className="swap-banner"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0, y: 14 }}
           >
-            {step >= 1 ? 'ラーメン → うどん' : 'foods[1] を狙います'}
+            {step >= 2 ? 'ラーメン → うどん' : 'foods[1] を狙います'}
           </motion.div>
         )}
       </AnimatePresence>
@@ -605,18 +637,29 @@ function OverwriteVisual({ step }: { step: number }) {
 
 function AppendVisual({ step }: { step: number }) {
   const items = step >= 1 ? [...foods, 'うどん'] : foods;
+  const eachIndex = step >= 2 ? Math.min(Math.floor((step - 2) / 2), items.length - 1) : -1;
+  const activeIndex = eachIndex >= 0 ? eachIndex : step === 1 ? items.length - 1 : -1;
   return (
     <div className="center-stack">
-      <ArrayBlocks items={items} activeIndex={step >= 1 ? items.length - 1 : -1} appended={step >= 1} />
-      <motion.div className="append-token" animate={{ x: step >= 1 ? 0 : -120, opacity: step >= 1 ? 1 : 0.35 }}>
-        &lt;&lt; "うどん"
-      </motion.div>
+      <ArrayBlocks items={items} activeIndex={activeIndex} appended={step === 1} />
+      <AnimatePresence mode="wait">
+        {step < 2 && (
+          <motion.div
+            className="append-token"
+            initial={{ x: -120, opacity: 0.35 }}
+            animate={{ x: step >= 1 ? 0 : -120, opacity: step >= 1 ? 1 : 0.35 }}
+            exit={{ scale: 0.8, opacity: 0, y: 14 }}
+          >
+            &lt;&lt; "うどん"
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 function EachVisual({ step }: { step: number }) {
-  const active = step <= 1 ? -1 : Math.min(step - 2, 2);
+  const active = step >= 1 ? Math.min(Math.floor((step - 1) / 2), 2) : -1;
   return (
     <div className="each-visual">
       <ArrayBlocks items={foods} activeIndex={active} />
@@ -633,19 +676,46 @@ function EachVisual({ step }: { step: number }) {
 }
 
 function TotalVisual({ step }: { step: number }) {
-  const totalByStep = [0, 0, 0, 80, 135, 235, 235][step] ?? 0;
-  const active = step <= 2 ? -1 : Math.min(step - 3, 2);
+  const additions = [
+    { before: 0, score: 80, after: 80 },
+    { before: 80, score: 55, after: 135 },
+    { before: 135, score: 100, after: 235 },
+  ];
+  const active =
+    step >= 2 && step <= 10
+      ? Math.min(Math.floor((step - 2) / 3), 2)
+      : -1;
+  const calculating = step >= 3 && step <= 10 && (step - 3) % 3 === 0;
+  const updating = step >= 4 && step <= 10 && (step - 4) % 3 === 0;
+  const currentAddition = active >= 0 ? additions[active] : null;
+  const totalValue = (() => {
+    if (step <= 1) return 0;
+    if (step >= 11) return 235;
+    if (!currentAddition) return 0;
+    return updating ? currentAddition.after : currentAddition.before;
+  })();
   return (
     <div className="total-visual">
       <ArrayBlocks items={scores.map(String)} activeIndex={active} />
       <div className="calculator-row">
-        <motion.div className="coin-bank" animate={{ scale: step >= 3 ? [1, 1.12, 1] : 1 }} transition={{ duration: 0.35 }}>
+        <motion.div
+          className={`coin-bank ${step >= 1 ? 'active' : ''}`}
+          animate={{ scale: updating ? [1, 1.12, 1] : 1 }}
+          transition={{ duration: 0.35 }}
+        >
           <span>total</span>
-          <strong>{totalByStep}</strong>
+          <strong>{totalValue}</strong>
         </motion.div>
-        {active >= 0 && (
-          <motion.div className="flying-score" key={`${step}-${active}`} initial={{ x: -120, opacity: 0, scale: 0.8 }} animate={{ x: 0, opacity: 1, scale: 1 }}>
-            + {scores[active]}
+        {currentAddition && (
+          <motion.div
+            className={`flying-score ${calculating || updating ? 'calculating' : ''}`}
+            key={`${step}-${active}-${calculating}-${updating}`}
+            initial={{ x: calculating || updating ? -110 : 0, opacity: 0, scale: 0.84 }}
+            animate={{ x: 0, opacity: 1, scale: 1 }}
+          >
+            {calculating || updating
+              ? `${currentAddition.before} + ${currentAddition.score} = ${currentAddition.after}`
+              : `score = ${currentAddition.score}`}
           </motion.div>
         )}
       </div>
@@ -654,12 +724,15 @@ function TotalVisual({ step }: { step: number }) {
 }
 
 function SumLengthVisual({ step }: { step: number }) {
+  const showArray = step >= 0;
   const showSum = step >= 1;
   const showLength = step >= 2;
   const showAverage = step >= 3;
   return (
     <div className="method-visual">
-      <ArrayBlocks items={scores.map(String)} />
+      <div className={`array-presence ${showArray ? 'visible' : ''}`}>
+        <ArrayBlocks items={scores.map(String)} />
+      </div>
       <div className="method-grid">
         <motion.div className="method-card" animate={{ opacity: showSum ? 1 : 0.35, y: showSum ? 0 : 16 }}>
           <span>scores.sum</span>
@@ -679,36 +752,60 @@ function SumLengthVisual({ step }: { step: number }) {
 }
 
 function RangeVisual({ step }: { step: number }) {
-  const highlighted = step >= 2 ? 10 : step >= 1 ? 4 : 0;
+  const showRange = step >= 0;
+  const activeNumber = step >= 1 && step <= 10 ? Math.floor((step - 1) / 2) + 1 : 0;
+  const highlighted = activeNumber;
   return (
     <div className="range-visual">
-      <div className="range-line">
-        {Array.from({ length: 10 }, (_, index) => index + 1).map((number) => (
+      <div className={`range-line ${showRange ? 'visible' : ''}`}>
+        {Array.from({ length: 5 }, (_, index) => index + 1).map((number) => (
           <motion.div
             key={number}
             className={`range-number ${number <= highlighted ? 'lit' : ''}`}
-            animate={{ y: number <= highlighted ? -10 : 0, scale: number === highlighted ? 1.18 : 1 }}
+            animate={{ y: number === activeNumber ? -10 : 0, scale: number === activeNumber ? 1.18 : 1 }}
           >
             {number}
           </motion.div>
         ))}
       </div>
-      <div className="range-caption">r = 1..10</div>
+      <div className={`range-caption ${showRange ? 'visible' : ''}`}>r = 1..5</div>
     </div>
   );
 }
 
 function ConditionVisual({ step }: { step: number }) {
-  const active = step <= 1 ? -1 : Math.min(step - 2, 2);
+  const active = step >= 1 ? Math.min(Math.floor((step - 1) / 3), 2) : -1;
   const score = active >= 0 ? scores[active] : null;
   const pass = score !== null && score >= 60;
+  const checking = step >= 2 && step <= 8 && (step - 2) % 3 === 0;
+  const outputting = step >= 3 && step <= 9 && (step - 3) % 3 === 0;
+  const judgeText = (() => {
+    if (checking) return pass ? 'true' : 'false';
+    if (outputting) return pass ? '合格' : '不合格';
+    if (active >= 0) return `score = ${score}`;
+    return '判定待ち';
+  })();
   return (
     <div className="condition-visual">
-      <ArrayBlocks items={scores.map(String)} activeIndex={active} />
-      <motion.div className={`judge-gate ${active >= 0 ? (pass ? 'pass' : 'fail') : ''}`} animate={{ scale: active >= 0 ? [1, 1.08, 1] : 1 }}>
-        <span>score &gt;= 60 ?</span>
-        <strong>{active >= 0 ? (pass ? '合格' : '不合格') : '判定待ち'}</strong>
-      </motion.div>
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''}`}>
+        <ArrayBlocks items={scores.map(String)} activeIndex={active} />
+      </div>
+      <div className="condition-boxes">
+        <motion.div
+          className={`score-box ${active >= 0 ? 'active' : ''}`}
+          animate={{ scale: active >= 0 && !checking && !outputting ? [1, 1.06, 1] : 1 }}
+        >
+          <span>score</span>
+          <strong>{active >= 0 ? score : '-'}</strong>
+        </motion.div>
+        <motion.div
+          className={`judge-gate ${checking || outputting ? (pass ? 'pass' : 'fail') : ''}`}
+          animate={{ scale: checking || outputting ? [1, 1.08, 1] : 1 }}
+        >
+          <span>score &gt;= 60 ?</span>
+          <strong>{checking ? judgeText : outputting ? judgeText : '判定待ち'}</strong>
+        </motion.div>
+      </div>
     </div>
   );
 }
