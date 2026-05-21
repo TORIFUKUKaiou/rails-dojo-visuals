@@ -1,0 +1,133 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fira+Code:wght@400;500&display=swap');
+
+@theme {
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  background-color: #fcfcfc;
+  color: #1a1a1a;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.code-line {
+  display: flex;
+  align-items: center;
+  padding: 4px 20px;
+  font-family: var(--font-mono);
+  font-size: 18px; /* Increased from 14px */
+  line-height: 1.8;
+  white-space: pre;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.code-line-active {
+  background: rgba(74, 144, 226, 0.15);
+}
+
+.code-line-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px; /* Slightly thicker */
+  background: #4a90e2;
+  z-index: 10;
+}
+
+.grid-cell {
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: #cbd5e0;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  font-family: var(--font-sans);
+}
+
+.grid-cell-active {
+  background: #4a90e2;
+  color: #fff;
+  border-color: #4a90e2;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+  z-index: 20;
+}
+
+.grid-cell-completed {
+  background: #ebf4ff;
+  color: #4a90e2;
+  border-color: #bee3f8;
+}
+
+.sidebar {
+  width: 440px;
+  background: #f8f9fa;
+  border-right: 1px solid #e5e5e5;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.header {
+  height: 60px;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  justify-content: space-between;
+}
+
+.viz-area {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: #fff;
+  overflow-y: auto;
+}
+
+.code-box {
+  background: #1e1e1e;
+  border-radius: 16px;
+  padding: 24px 0;
+  color: #d4d4d4;
+  font-family: var(--font-mono);
+  box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+}
