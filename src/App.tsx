@@ -643,7 +643,9 @@ function IndexVisual({ step }: { step: number }) {
   const active = step <= 0 ? -1 : step - 1;
   return (
     <div className="center-stack">
-      <ArrayBlocks items={foods} activeIndex={active} />
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''}`}>
+        <ArrayBlocks items={foods} activeIndex={active} />
+      </div>
       <motion.div key={active} className="readout" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
         {active >= 0 ? (
           <>
@@ -667,9 +669,11 @@ function OverwriteVisual({ step }: { step: number }) {
   const activeIndex = printIndex >= 0 ? printIndex : step >= 1 ? 1 : -1;
   return (
     <div className="center-stack">
-      <ArrayBlocks items={items} activeIndex={activeIndex} replacedIndex={step === 1 || step === 2 ? 1 : -1} />
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''}`}>
+        <ArrayBlocks items={items} activeIndex={activeIndex} replacedIndex={step === 1 || step === 2 ? 1 : -1} />
+      </div>
       <AnimatePresence mode="wait">
-        {step < 3 && (
+        {step >= 1 && step < 3 && (
           <motion.div
             key={step >= 2 ? 'after' : 'before'}
             className="swap-banner"
@@ -691,9 +695,11 @@ function AppendVisual({ step }: { step: number }) {
   const activeIndex = eachIndex >= 0 ? eachIndex : step === 2 ? items.length - 1 : -1;
   return (
     <div className="center-stack">
-      <ArrayBlocks items={items} activeIndex={activeIndex} appended={step === 2} />
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''}`}>
+        <ArrayBlocks items={items} activeIndex={activeIndex} appended={step === 2} />
+      </div>
       <AnimatePresence mode="wait">
-        {step < 2 && (
+        {step >= 1 && step < 2 && (
           <motion.div
             className="append-token"
             initial={{ x: -120, opacity: 0.35 }}
@@ -713,7 +719,7 @@ function EachVisual({ step }: { step: number }) {
   const active = step >= 2 ? Math.min(Math.floor((step - 2) / 2), 2) : -1;
   return (
     <div className="each-visual">
-      <div className={`array-presence visible ${enteringLoop ? 'looping cyan' : ''}`}>
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''} ${enteringLoop ? 'looping cyan' : ''}`}>
         <ArrayBlocks items={foods} activeIndex={active} />
       </div>
       <div className="pipe-row">
