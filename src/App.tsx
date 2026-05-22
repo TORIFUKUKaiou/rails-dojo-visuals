@@ -251,6 +251,7 @@ const LESSONS_05: Lesson[] = [
     ],
     steps: [
       { line: 0, message: '1..5 は、1から5までという意味です。' },
+      { line: 2, message: '03行で r 全体を見て、これから1つずつ取り出す準備をします。' },
       { line: 2, message: '03行で、範囲から 1 を取り出します。' },
       { line: 3, message: '04行で 1 を表示します。', console: ['1'] },
       { line: 2, message: '03行に戻り、次の 2 を取り出します。', console: ['1'] },
@@ -284,6 +285,7 @@ const LESSONS_05: Lesson[] = [
     ],
     steps: [
       { line: 0, message: '点数を配列で持ちます。' },
+      { line: 2, message: '03行で scores 全体を見て、これから1つずつ取り出す準備をします。' },
       { line: 2, message: '03行で、1つ目の点数 80 を score に入れます。' },
       { line: 3, message: '04行で 80 >= 60 を判定します。結果は true です。' },
       { line: 4, message: 'true なので合格のルートに入り、05行で表示します。', console: ['80点：合格'] },
@@ -719,15 +721,16 @@ function AppendVisual({ step }: { step: number }) {
 function EachVisual({ step }: { step: number }) {
   const enteringLoop = step === 1;
   const active = step >= 2 ? Math.min(Math.floor((step - 2) / 2), 2) : -1;
+  const hasFoodValue = active >= 0;
   return (
     <div className="each-visual">
       <div className={`array-presence ${step >= 0 ? 'visible' : ''} ${enteringLoop ? 'looping cyan' : ''}`}>
         <ArrayBlocks items={foods} activeIndex={active} />
       </div>
-      <div className="pipe-row">
+      <div className={`pipe-row ${hasFoodValue ? '' : 'dimmed'}`}>
         <span>|</span>
         <motion.div key={active} className="pipe-value" initial={{ y: -18, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-          {active >= 0 ? foods[active] : 'food'}
+          {hasFoodValue ? foods[active] : 'food'}
         </motion.div>
         <span>|</span>
       </div>
@@ -818,11 +821,12 @@ function SumLengthVisual({ step }: { step: number }) {
 
 function RangeVisual({ step }: { step: number }) {
   const showRange = step >= 0;
-  const activeNumber = step >= 1 && step <= 10 ? Math.floor((step - 1) / 2) + 1 : 0;
+  const enteringLoop = step === 1;
+  const activeNumber = step >= 2 && step <= 11 ? Math.floor((step - 2) / 2) + 1 : 0;
   const highlighted = activeNumber;
   return (
     <div className="range-visual">
-      <div className={`range-line ${showRange ? 'visible' : ''}`}>
+      <div className={`range-line ${showRange ? 'visible' : ''} ${enteringLoop ? 'looping' : ''}`}>
         {Array.from({ length: 5 }, (_, index) => index + 1).map((number) => (
           <motion.div
             key={number}
@@ -839,11 +843,12 @@ function RangeVisual({ step }: { step: number }) {
 }
 
 function ConditionVisual({ step }: { step: number }) {
-  const active = step >= 1 ? Math.min(Math.floor((step - 1) / 3), 2) : -1;
+  const enteringLoop = step === 1;
+  const active = step >= 2 && step <= 10 ? Math.min(Math.floor((step - 2) / 3), 2) : -1;
   const score = active >= 0 ? scores[active] : null;
   const pass = score !== null && score >= 60;
-  const checking = step >= 2 && step <= 8 && (step - 2) % 3 === 0;
-  const outputting = step >= 3 && step <= 9 && (step - 3) % 3 === 0;
+  const checking = step >= 3 && step <= 9 && (step - 3) % 3 === 0;
+  const outputting = step >= 4 && step <= 10 && (step - 4) % 3 === 0;
   const judgeText = (() => {
     if (checking) return pass ? 'true' : 'false';
     if (outputting) return pass ? '合格' : '不合格';
@@ -852,7 +857,7 @@ function ConditionVisual({ step }: { step: number }) {
   })();
   return (
     <div className="condition-visual">
-      <div className={`array-presence ${step >= 0 ? 'visible' : ''}`}>
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''} ${enteringLoop ? 'looping' : ''}`}>
         <ArrayBlocks items={scores.map(String)} activeIndex={active} />
       </div>
       <div className="condition-boxes">

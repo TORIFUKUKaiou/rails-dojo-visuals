@@ -1320,6 +1320,13 @@ button {
   opacity: 1;
 }
 
+.range-line.looping {
+  box-shadow:
+    inset 0 0 0 3px #14b8a6,
+    0 0 0 8px rgba(20, 184, 166, 0.12),
+    0 18px 34px rgba(20, 184, 166, 0.14);
+}
+
 .range-number {
   display: grid;
   height: 64px;
