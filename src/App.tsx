@@ -140,6 +140,7 @@ const LESSONS_05: Lesson[] = [
       { line: 0, message: '最初は3つのデータが入っています。' },
       { line: 2, message: '03行で、追加する値「うどん」を確認します。まだ配列には入っていません。' },
       { line: 2, message: '同じ03行で、配列の最後に「うどん」を追加します。' },
+      { line: 4, message: '05行で foods 全体を見て、これから1つずつ取り出す準備をします。' },
       { line: 4, message: '05行で、1つ目の「カレー」を取り出します。' },
       { line: 5, message: '06行で「カレー」を表示します。', console: ['カレー'] },
       { line: 4, message: '05行に戻り、2つ目の「ラーメン」を取り出します。', console: ['カレー'] },
@@ -691,11 +692,12 @@ function OverwriteVisual({ step }: { step: number }) {
 
 function AppendVisual({ step }: { step: number }) {
   const items = step >= 2 ? [...foods, 'うどん'] : foods;
-  const eachIndex = step >= 3 ? Math.min(Math.floor((step - 3) / 2), items.length - 1) : -1;
+  const enteringLoop = step === 3;
+  const eachIndex = step >= 4 ? Math.min(Math.floor((step - 4) / 2), items.length - 1) : -1;
   const activeIndex = eachIndex >= 0 ? eachIndex : step === 2 ? items.length - 1 : -1;
   return (
     <div className="center-stack">
-      <div className={`array-presence ${step >= 0 ? 'visible' : ''}`}>
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''} ${enteringLoop ? 'looping cyan' : ''}`}>
         <ArrayBlocks items={items} activeIndex={activeIndex} appended={step === 2} />
       </div>
       <AnimatePresence mode="wait">
