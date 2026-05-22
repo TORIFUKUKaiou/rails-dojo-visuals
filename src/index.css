@@ -151,6 +151,47 @@ button {
   line-height: 1;
 }
 
+.chapter-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: auto;
+  margin-left: 10px;
+  padding: 4px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: rgba(241, 245, 249, 0.9);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+
+.chapter-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 850;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.chapter-tab:hover {
+  color: #0f172a;
+}
+
+.chapter-tab.selected {
+  background: #fff;
+  color: #1d4ed8;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+  font-weight: 950;
+}
+
 .week-badge {
   display: flex;
   align-items: center;
@@ -269,7 +310,6 @@ button {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
 }
 
 .code-list {
@@ -553,6 +593,15 @@ button {
   opacity: 1;
 }
 
+.array-presence.looping {
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: rgba(225, 29, 72, 0.08);
+  box-shadow:
+    0 0 0 8px rgba(225, 29, 72, 0.08),
+    0 18px 36px rgba(225, 29, 72, 0.1);
+}
+
 .bracket {
   color: #94a3b8;
   font-family: var(--font-mono);
@@ -615,6 +664,489 @@ button {
   font-weight: 950;
 }
 
+/* ───── Hash visualizer (Ch06) ───── */
+
+.hash-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  flex-wrap: wrap;
+}
+
+.hash-wrap.compact {
+  gap: 8px;
+}
+
+.hash-wrap.compact .hash-cell {
+  width: 84px;
+  min-height: 76px;
+}
+
+.hash-wrap.compact .hash-brace {
+  font-size: 44px;
+}
+
+.hash-wrap.compact .key-pill {
+  max-width: 78px;
+  padding: 3px 7px;
+  font-size: 10px;
+}
+
+.hash-wrap.compact .arrow-label {
+  font-size: 11px;
+}
+
+.hash-wrap.compact .cell-value {
+  font-size: 17px;
+}
+
+.hash-wrap.roomy {
+  gap: 13px;
+}
+
+.hash-wrap.roomy .hash-cell {
+  width: 132px;
+  min-height: 108px;
+}
+
+.hash-wrap.roomy .hash-brace {
+  font-size: 64px;
+}
+
+.hash-wrap.roomy .key-pill {
+  max-width: 124px;
+  font-size: 14px;
+}
+
+.hash-wrap.roomy .cell-value {
+  font-size: 26px;
+}
+
+.hash-wrap.large {
+  gap: 16px;
+}
+
+.hash-wrap.large.dimmed {
+  opacity: 0.28;
+  filter: saturate(0.4);
+}
+
+.hash-wrap.dimmed {
+  opacity: 0.28;
+  filter: saturate(0.4);
+}
+
+.hash-wrap.large .hash-cell {
+  width: 158px;
+  min-height: 128px;
+}
+
+.hash-wrap.large .hash-brace {
+  font-size: 78px;
+}
+
+.hash-wrap.large .key-pill {
+  max-width: 144px;
+  padding: 5px 12px;
+  font-size: 15px;
+}
+
+.hash-wrap.large .arrow-label {
+  font-size: 16px;
+}
+
+.hash-wrap.large .cell-value {
+  font-size: 34px;
+}
+
+.hash-wrap.large .cell-value.changed {
+  color: #d97706;
+  font-size: 44px;
+  text-shadow: 0 8px 24px rgba(217, 119, 6, 0.25);
+}
+
+.hash-basic-visual {
+  gap: 22px;
+}
+
+.hash-basic-visual .visual-label {
+  margin: 0;
+  font-size: 32px;
+  text-align: center;
+}
+
+.hash-brace {
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 62px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hash-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 118px;
+  min-height: 98px;
+  border: 4px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
+  gap: 2px;
+}
+
+.hash-cell.active {
+  border-color: #4f46e5;
+  background: #eef2ff;
+  box-shadow:
+    0 0 0 8px rgba(79, 70, 229, 0.15),
+    0 20px 42px rgba(79, 70, 229, 0.22);
+  animation: cell-pulse 900ms ease-in-out infinite alternate;
+}
+
+.hash-cell.appended {
+  border-color: #059669;
+  background: #ecfdf5;
+}
+
+.hash-cell.nested {
+  min-height: 98px;
+  height: auto;
+  min-width: 270px;
+  padding: 14px 18px;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.hash-cell.mini {
+  width: 100px;
+  min-height: 80px;
+}
+
+.hash-in-hash-visual {
+  gap: 22px;
+}
+
+.hash-in-hash-visual .visual-label {
+  margin: 0;
+  font-size: 32px;
+}
+
+.hash-in-hash-wrap {
+  padding: 14px 18px;
+  border: 4px solid transparent;
+  border-radius: 8px;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    opacity 160ms ease,
+    filter 160ms ease;
+}
+
+.hash-in-hash-wrap.dimmed {
+  opacity: 0.28;
+  filter: saturate(0.4);
+}
+
+.hash-in-hash-wrap.student-active {
+  border-color: #e11d48;
+  background: #fff1f2;
+  box-shadow:
+    0 0 0 8px rgba(225, 29, 72, 0.1),
+    0 18px 38px rgba(225, 29, 72, 0.16);
+}
+
+.hash-in-hash-visual .hash-cell {
+  width: 154px;
+  min-height: 120px;
+}
+
+.hash-in-hash-visual .hash-cell.nested {
+  min-width: 390px;
+  min-height: 170px;
+  padding: 18px 22px;
+}
+
+.hash-in-hash-visual .hash-cell.mini {
+  width: 130px;
+  min-height: 100px;
+}
+
+.hash-in-hash-visual .hash-brace {
+  font-size: 78px;
+}
+
+.hash-in-hash-visual .hash-brace.small {
+  font-size: 48px;
+}
+
+.hash-in-hash-visual .key-pill {
+  max-width: 140px;
+  font-size: 15px;
+}
+
+.hash-in-hash-visual .key-pill.small {
+  max-width: 118px;
+  font-size: 12px;
+}
+
+.hash-in-hash-visual .arrow-label {
+  font-size: 16px;
+}
+
+.hash-in-hash-visual .arrow-label.small {
+  font-size: 12px;
+}
+
+.hash-in-hash-visual .cell-value {
+  font-size: 34px;
+}
+
+.hash-in-hash-visual .cell-value.small {
+  font-size: 25px;
+}
+
+.key-pill {
+  /* キー名を横に余裕をもって表示。index-pill の丸バッジとは別物 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: #0f172a;
+  color: #a5f3fc;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 900;
+  white-space: nowrap;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrow-label {
+  color: #94a3b8;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.key-pill.nested-key,
+.arrow-label.nested-arrow {
+  align-self: flex-start;
+}
+
+.key-pill.small,
+.arrow-label.small {
+  font-size: 10px;
+}
+
+.hash-brace.small {
+  font-size: 36px;
+}
+
+.cell-value.small {
+  font-size: 18px;
+}
+
+.nested-inner {
+  margin: 0;
+}
+
+.hash-comparison {
+  grid-template-columns: 210px 34px minmax(430px, max-content);
+  gap: 8px;
+  justify-content: center;
+}
+
+.hash-focus {
+  justify-self: end;
+}
+
+.hash-focus .visual-label {
+  width: 100%;
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.hash-index-holder {
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.index-pill.static {
+  position: static;
+  display: inline-grid;
+  transform: none;
+}
+
+.hash-array-wrap {
+  gap: 8px;
+}
+
+.hash-array-wrap.dimmed {
+  opacity: 0.28;
+  filter: saturate(0.4);
+}
+
+.hash-array-wrap.looping {
+  border-radius: 8px;
+  background: rgba(5, 150, 105, 0.08);
+  box-shadow:
+    0 0 0 8px rgba(5, 150, 105, 0.08),
+    0 18px 36px rgba(5, 150, 105, 0.1);
+}
+
+.hash-array-slot {
+  display: flex;
+  align-items: center;
+}
+
+.hash-array-item {
+  padding: 14px 12px 10px;
+  border: 4px solid transparent;
+  border-radius: 8px;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.hash-array-item.active {
+  border-color: #059669;
+  background: #ecfdf5;
+  box-shadow:
+    0 0 0 8px rgba(5, 150, 105, 0.12),
+    0 18px 38px rgba(5, 150, 105, 0.16);
+}
+
+.array-of-hashes-visual .visual-label {
+  margin: 0;
+  font-size: 32px;
+}
+
+.array-of-hashes-visual .hash-wrap.compact .hash-cell {
+  width: 116px;
+  min-height: 94px;
+}
+
+.array-of-hashes-visual .hash-wrap.compact .hash-brace {
+  font-size: 58px;
+}
+
+.array-of-hashes-visual .hash-wrap.compact .key-pill {
+  max-width: 108px;
+  font-size: 13px;
+}
+
+.array-of-hashes-visual .hash-wrap.compact .arrow-label {
+  font-size: 13px;
+}
+
+.array-of-hashes-visual .hash-wrap.compact .cell-value {
+  font-size: 24px;
+}
+
+.student-pipe-box {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 16px 22px;
+  border: 4px solid #34d399;
+  border-radius: 8px;
+  background: #ecfdf5;
+  color: #064e3b;
+  box-shadow: 0 18px 36px rgba(5, 150, 105, 0.16);
+}
+
+.student-pipe-box span {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 950;
+  opacity: 0.72;
+}
+
+.student-pipe-box strong {
+  font-size: 28px;
+  font-weight: 950;
+}
+
+/* HashEachVisual — |key, value| のラベル付きボックス */
+.hash-pipe-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 140px;
+  padding: 10px 16px;
+  border: 4px solid #67e8f9;
+  border-radius: 8px;
+  background: #ecfeff;
+}
+
+.hash-pipe-label {
+  color: #0e7490;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.hash-pipe-value {
+  color: #0e7490;
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 950;
+  text-align: center;
+}
+
+.hash-pipe-box.value {
+  border-color: #818cf8;
+  background: #eef2ff;
+}
+
+.hash-pipe-box.value .hash-pipe-label {
+  color: #6d28d9;
+}
+
+.hash-pipe-box.value .hash-pipe-value {
+  color: #4338ca;
+}
+
+.swap-banner.info {
+  background: #0369a1;
+}
+
+.swap-banner.success {
+  background: #059669;
+}
+
+.hash-method-grid {
+  grid-template-columns: repeat(2, minmax(190px, 1fr));
+}
+
+.hash-method-card {
+  gap: 6px;
+  overflow: hidden;
+}
+
+.hash-method-card span {
+  text-align: center;
+}
+
+.hash-method-card strong {
+  font-size: 18px;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
 .readout,
 .swap-banner,
 .append-token,
@@ -662,6 +1194,12 @@ button {
   font-family: var(--font-mono);
   font-size: 44px;
   font-weight: 900;
+}
+
+.each-visual.dimmed .hash-wrap,
+.pipe-row.dimmed {
+  opacity: 0.28;
+  filter: saturate(0.4);
 }
 
 .pipe-value {

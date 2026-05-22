@@ -17,9 +17,11 @@ import {
   RotateCcw,
   Sigma,
   Sparkles,
+  Database,
 } from 'lucide-react';
+import { LESSONS_06, Chapter06Visual, type LessonId06, isLessonId06 } from './Chapter06Visuals';
 
-type LessonId =
+type LessonId05 =
   | 'why_array'
   | 'index_access'
   | 'overwrite'
@@ -29,6 +31,8 @@ type LessonId =
   | 'sum_length'
   | 'range'
   | 'condition';
+
+type LessonId = LessonId05 | LessonId06;
 
 type Lesson = {
   id: LessonId;
@@ -48,7 +52,7 @@ type Lesson = {
 const foods = ['カレー', 'ラーメン', '寿司'];
 const scores = [80, 55, 100];
 
-const LESSONS: Lesson[] = [
+const LESSONS_05: Lesson[] = [
   {
     id: 'why_array',
     short: '配列',
@@ -192,6 +196,7 @@ const LESSONS: Lesson[] = [
     steps: [
       { line: 0, message: '点数の配列を用意します。' },
       { line: 1, message: 'total は合計を入れる変数です。最初は0です。' },
+      { line: 3, message: '04行で scores 全体を見て、これから1つずつ取り出す準備をします。' },
       { line: 3, message: '04行で、1つ目の点数 80 を score に入れます。' },
       { line: 4, message: '05行で total + score、つまり 0 + 80 を計算します。' },
       { line: 4, message: '計算結果の 80 で total を上書きします。', console: ['total: 0 + 80 = 80'] },
@@ -304,13 +309,18 @@ const accentClasses: Record<string, { bg: string; text: string; ring: string; so
 };
 
 function App() {
+  const [activeChapter, setActiveChapter] = useState<'05' | '06'>('05');
   const [lessonId, setLessonId] = useState<LessonId>('why_array');
   const [step, setStep] = useState(-1);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(950);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const lesson = useMemo(() => LESSONS.find((item) => item.id === lessonId) ?? LESSONS[0], [lessonId]);
+  const lessons = useMemo<readonly Lesson[]>(() => {
+    return activeChapter === '05' ? LESSONS_05 : LESSONS_06;
+  }, [activeChapter]);
+
+  const lesson = useMemo(() => lessons.find((item) => item.id === lessonId) ?? lessons[0], [lessons, lessonId]);
   const current =
     step < 0
       ? {
@@ -354,19 +364,44 @@ function App() {
     setPlaying(false);
   };
 
+  const switchChapter = (chapter: '05' | '06') => {
+    setActiveChapter(chapter);
+    setLessonId(chapter === '05' ? 'why_array' : 'why_hash');
+    setStep(-1);
+    setPlaying(false);
+  };
+
   return (
     <main className="app-shell">
-      <LessonRail activeId={lessonId} onSelect={switchLesson} />
+      <LessonRail activeId={lessonId} onSelect={switchLesson} lessons={lessons} activeChapter={activeChapter} />
 
       <section className="stage">
         <header className="stage-header">
           <div>
-            <div className="eyebrow">Rails Dojo Year 1 / Week 05</div>
-            <h1>配列を目で見る</h1>
+            <div className="eyebrow">Rails Dojo Year 1 / {activeChapter === '05' ? 'Week 05' : 'Week 06'}</div>
+            <h1>{activeChapter === '05' ? '配列を目で見る' : 'ハッシュを目で見る'}</h1>
           </div>
+
+          <div className="chapter-tabs">
+            <button
+              onClick={() => switchChapter('05')}
+              className={`chapter-tab ${activeChapter === '05' ? 'selected' : ''}`}
+            >
+              <Brackets size={14} />
+              <span>第5回 配列</span>
+            </button>
+            <button
+              onClick={() => switchChapter('06')}
+              className={`chapter-tab ${activeChapter === '06' ? 'selected' : ''}`}
+            >
+              <Database size={14} />
+              <span>第6回 ハッシュ</span>
+            </button>
+          </div>
+
           <div className={`week-badge ${accent.soft} ${accent.border}`}>
-            <Brackets size={18} />
-            <span>第5回 配列</span>
+            {activeChapter === '05' ? <Brackets size={18} /> : <Database size={18} />}
+            <span>{activeChapter === '05' ? '第5回 配列' : '第6回 ハッシュ'}</span>
           </div>
         </header>
 
@@ -475,12 +510,22 @@ function App() {
   );
 }
 
-function LessonRail({ activeId, onSelect }: { activeId: LessonId; onSelect: (id: LessonId) => void }) {
+function LessonRail({
+  activeId,
+  onSelect,
+  lessons,
+  activeChapter,
+}: {
+  activeId: LessonId;
+  onSelect: (id: LessonId) => void;
+  lessons: readonly Lesson[];
+  activeChapter: '05' | '06';
+}) {
   return (
     <nav className="lesson-rail" aria-label="レッスン選択">
-      <div className="rail-mark">05</div>
+      <div className="rail-mark">{activeChapter}</div>
       <div className="rail-items">
-        {LESSONS.map((lesson, index) => {
+        {lessons.map((lesson, index) => {
           const Icon = lesson.icon;
           const active = lesson.id === activeId;
           return (
@@ -521,6 +566,9 @@ function LessonVisual({ lesson, step }: { lesson: Lesson; step: number }) {
     case 'condition':
       return <ConditionVisual step={step} />;
     default:
+      if (isLessonId06(lesson.id)) {
+        return <Chapter06Visual lessonId={lesson.id} step={step} />;
+      }
       return null;
   }
 }
@@ -682,22 +730,25 @@ function TotalVisual({ step }: { step: number }) {
     { before: 80, score: 55, after: 135 },
     { before: 135, score: 100, after: 235 },
   ];
+  const enteringLoop = step === 2;
   const active =
-    step >= 2 && step <= 10
-      ? Math.min(Math.floor((step - 2) / 3), 2)
+    step >= 3 && step <= 11
+      ? Math.min(Math.floor((step - 3) / 3), 2)
       : -1;
-  const calculating = step >= 3 && step <= 10 && (step - 3) % 3 === 0;
-  const updating = step >= 4 && step <= 10 && (step - 4) % 3 === 0;
+  const calculating = step >= 4 && step <= 11 && (step - 4) % 3 === 0;
+  const updating = step >= 5 && step <= 11 && (step - 5) % 3 === 0;
   const currentAddition = active >= 0 ? additions[active] : null;
   const totalValue = (() => {
     if (step <= 1) return 0;
-    if (step >= 11) return 235;
+    if (step >= 12) return 235;
     if (!currentAddition) return 0;
     return updating ? currentAddition.after : currentAddition.before;
   })();
   return (
     <div className="total-visual">
-      <ArrayBlocks items={scores.map(String)} activeIndex={active} />
+      <div className={`array-presence ${step >= 0 ? 'visible' : ''} ${enteringLoop ? 'looping' : ''}`}>
+        <ArrayBlocks items={scores.map(String)} activeIndex={active} />
+      </div>
       <div className="calculator-row">
         <motion.div
           className={`coin-bank ${step >= 1 ? 'active' : ''}`}
@@ -729,21 +780,22 @@ function SumLengthVisual({ step }: { step: number }) {
   const showSum = step >= 1;
   const showLength = step >= 2;
   const showAverage = step >= 3;
+  const showFinalResult = step >= 4;
   return (
     <div className="method-visual">
       <div className={`array-presence ${showArray ? 'visible' : ''}`}>
         <ArrayBlocks items={scores.map(String)} />
       </div>
       <div className="method-grid">
-        <motion.div className="method-card" animate={{ opacity: showSum ? 1 : 0.35, y: showSum ? 0 : 16 }}>
+        <motion.div className="method-card" animate={{ opacity: showSum ? 1 : 0, y: showSum ? 0 : 16, scale: showSum ? 1 : 0.94 }}>
           <span>scores.sum</span>
           <strong>235</strong>
         </motion.div>
-        <motion.div className="method-card" animate={{ opacity: showLength ? 1 : 0.35, y: showLength ? 0 : 16 }}>
+        <motion.div className="method-card" animate={{ opacity: showLength ? 1 : 0, y: showLength ? 0 : 16, scale: showLength ? 1 : 0.94 }}>
           <span>scores.length</span>
           <strong>3</strong>
         </motion.div>
-        <motion.div className="method-card result" animate={{ opacity: showAverage ? 1 : 0.25, scale: showAverage ? 1 : 0.9 }}>
+        <motion.div className={`method-card ${showFinalResult ? 'result' : ''}`} animate={{ opacity: showAverage ? 1 : 0, y: showAverage ? 0 : 16, scale: showFinalResult ? 1.05 : showAverage ? 1 : 0.94 }}>
           <span>235 / 3</span>
           <strong>78点</strong>
         </motion.div>
