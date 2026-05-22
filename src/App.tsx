@@ -167,6 +167,7 @@ const LESSONS_05: Lesson[] = [
     ],
     steps: [
       { line: 0, message: '配列には3つの食べ物が入っています。' },
+      { line: 2, message: '03行で foods 全体を見て、これから1つずつ取り出す準備をします。' },
       { line: 2, message: '03行で、1つ目の「カレー」を取り出します。' },
       { line: 3, message: '04行で「カレー」を表示します。', console: ['カレー'] },
       { line: 2, message: '03行に戻り、2つ目の「ラーメン」を取り出します。', console: ['カレー'] },
@@ -708,10 +709,13 @@ function AppendVisual({ step }: { step: number }) {
 }
 
 function EachVisual({ step }: { step: number }) {
-  const active = step >= 1 ? Math.min(Math.floor((step - 1) / 2), 2) : -1;
+  const enteringLoop = step === 1;
+  const active = step >= 2 ? Math.min(Math.floor((step - 2) / 2), 2) : -1;
   return (
     <div className="each-visual">
-      <ArrayBlocks items={foods} activeIndex={active} />
+      <div className={`array-presence visible ${enteringLoop ? 'looping cyan' : ''}`}>
+        <ArrayBlocks items={foods} activeIndex={active} />
+      </div>
       <div className="pipe-row">
         <span>|</span>
         <motion.div key={active} className="pipe-value" initial={{ y: -18, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>

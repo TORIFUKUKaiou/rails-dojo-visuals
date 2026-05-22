@@ -602,6 +602,13 @@ button {
     0 18px 36px rgba(225, 29, 72, 0.1);
 }
 
+.array-presence.looping.cyan {
+  background: rgba(8, 145, 178, 0.08);
+  box-shadow:
+    0 0 0 8px rgba(8, 145, 178, 0.08),
+    0 18px 36px rgba(8, 145, 178, 0.1);
+}
+
 .bracket {
   color: #94a3b8;
   font-family: var(--font-mono);
