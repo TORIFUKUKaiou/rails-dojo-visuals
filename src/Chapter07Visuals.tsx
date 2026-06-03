@@ -76,11 +76,17 @@ export const LESSONS_07: readonly Lesson07[] = [
       { line: 0, message: 'まず、挨拶を作る処理に make_greeting という名前をつけます。' },
       { line: 1, message: 'name に入った値を使って、挨拶の文字列を組み立てる処理です。' },
       { line: 2, message: 'end までが、メソッドとしてまとめた処理の範囲です。' },
-      { line: 4, message: '田中さん用の挨拶を作り、戻り値を msg1 に入れます。' },
+      { line: 4, message: 'make_greeting("田中") を呼び出します。' },
+      { line: 1, message: '02行目で「こんにちは、田中さん！」という文字列を作り、戻り値にします。' },
+      { line: 4, message: '戻り値が msg1 に入ります。' },
       { line: 5, message: 'msg1 の中身を puts で表示します。', console: ['こんにちは、田中さん！'] },
-      { line: 7, message: '呼び出す値を変えて、佐藤さん用の戻り値を msg2 に入れます。', console: ['こんにちは、田中さん！'] },
+      { line: 7, message: 'make_greeting("佐藤") を呼び出します。', console: ['こんにちは、田中さん！'] },
+      { line: 1, message: '02行目で「こんにちは、佐藤さん！」という文字列を作り、戻り値にします。', console: ['こんにちは、田中さん！'] },
+      { line: 7, message: '戻り値が msg2 に入ります。', console: ['こんにちは、田中さん！'] },
       { line: 8, message: 'msg2 の中身を puts で表示します。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
-      { line: 10, message: '同じ処理を再利用して、鈴木さん用の戻り値を msg3 に入れます。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
+      { line: 10, message: 'make_greeting("鈴木") を呼び出します。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
+      { line: 1, message: '02行目で「こんにちは、鈴木さん！」という文字列を作り、戻り値にします。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
+      { line: 10, message: '戻り値が msg3 に入ります。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
       { line: 11, message: 'msg3 の中身を puts で表示します。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！', 'こんにちは、鈴木さん！'] },
     ],
   },
@@ -282,11 +288,23 @@ function MethodBox({
   );
 }
 
-function ValueChip({ label, value, active = false, muted = false }: { label: string; value: string; active?: boolean; muted?: boolean }) {
+function ValueChip({
+  label,
+  value,
+  active = false,
+  reading = false,
+  muted = false,
+}: {
+  label: string;
+  value: string;
+  active?: boolean;
+  reading?: boolean;
+  muted?: boolean;
+}) {
   return (
     <motion.div
-      className={`value-chip ${active ? 'active' : ''} ${muted ? 'muted' : ''}`}
-      animate={{ scale: active ? [1, 1.08, 1] : 1 }}
+      className={`value-chip ${active ? 'active' : ''} ${reading ? 'reading' : ''} ${muted ? 'muted' : ''}`}
+      animate={{ scale: active || reading ? [1, 1.08, 1] : 1 }}
       transition={{ duration: 0.4 }}
     >
       <span>{label}</span>
@@ -297,9 +315,13 @@ function ValueChip({ label, value, active = false, muted = false }: { label: str
 
 function WhyMethodVisual({ step }: { step: number }) {
   const showMethod = step >= 0;
-  const activeCall = step >= 3 ? Math.min(Math.floor((step - 3) / 2), 2) : -1;
+  const activeCall = step >= 3 ? Math.min(Math.floor((step - 3) / 4), 2) : -1;
+  const phase = step >= 3 ? (step - 3) % 4 : -1;
   const names = ['田中', '佐藤', '鈴木'];
   const messageNames = ['msg1', 'msg2', 'msg3'];
+  const returnValues = names.map((name) => `"こんにちは、${name}さん！"`);
+  const visibleReturnIndex = phase >= 2 ? activeCall : activeCall - 1;
+  const methodActive = (step >= 0 && step <= 2) || phase === 1;
 
   return (
     <div className="method-why-visual">
@@ -315,15 +337,21 @@ function WhyMethodVisual({ step }: { step: number }) {
         <ArrowRight size={56} />
       </motion.div>
       <div className="method-call-stack">
-        <MethodBox name="make_greeting(name)" subtitle="挨拶を作って返す" active={step >= 0 && step <= 2} dimmed={step < 0} />
+        <MethodBox
+          name="make_greeting(name)"
+          subtitle={phase === 1 && activeCall >= 0 ? returnValues[activeCall] : '挨拶を作って返す'}
+          active={methodActive}
+          dimmed={step < 0}
+        />
         <div className="call-chip-row">
           {names.map((name, index) => (
             <div key={name}>
               <ValueChip
                 label={messageNames[index]}
-                value={activeCall >= index ? `${name}さん用` : '-'}
-                active={activeCall === index}
-                muted={step < 3 || activeCall < index}
+                value={visibleReturnIndex >= index ? returnValues[index] : '-'}
+                active={phase === 2 && activeCall === index}
+                reading={phase === 3 && activeCall === index}
+                muted={visibleReturnIndex < index}
               />
             </div>
           ))}
@@ -353,21 +381,25 @@ function DefineCallVisual({ step }: { step: number }) {
 }
 
 function ArgumentVisual({ step }: { step: number }) {
-  const value = step >= 6 ? '"佐藤"' : step >= 1 ? '"田中"' : '-';
-  const output = step >= 6 ? '佐藤さん用' : step >= 1 ? '田中さん用' : '待機中';
-  const resultName = step >= 6 ? 'msg2' : 'msg1';
+  const argumentValue = step >= 6 ? '"佐藤"' : step >= 1 ? '"田中"' : '-';
+  const nameValue = step >= 7 ? '"佐藤"' : step >= 2 && step < 6 ? '"田中"' : '-';
+  const msg1Value = step >= 4 ? '"こんにちは、田中さん！"' : '-';
+  const msg2Value = step >= 9 ? '"こんにちは、佐藤さん！"' : '-';
 
   return (
     <div className="argument-visual">
-      <ValueChip label="呼び出し側の値" value={value} active={step === 1 || step === 6} muted={step < 1} />
+      <ValueChip label="呼び出し側の値" value={argumentValue} active={step === 1 || step === 6} muted={step < 1} />
       <motion.div className={`value-tunnel ${step >= 1 ? 'active' : ''}`}>
         <Package size={42} />
         <span>引数</span>
       </motion.div>
       <MethodBox name="make_greeting(name)" subtitle="name が値を受け取る" active={step >= 2 && step <= 8} dimmed={step < 2}>
-        <ValueChip label="name" value={value} active={step === 2 || step === 7} muted={step < 2} />
+        <ValueChip label="name" value={nameValue} active={step === 2 || step === 7} muted={step < 2 || step === 6} />
       </MethodBox>
-      <ValueChip label={resultName} value={output} active={step === 4 || step === 9} muted={step < 4} />
+      <div className="argument-results">
+        <ValueChip label="msg1" value={msg1Value} active={step === 4 || step === 5} muted={step < 4} />
+        <ValueChip label="msg2" value={msg2Value} active={step === 9 || step === 10} muted={step < 9} />
+      </div>
     </div>
   );
 }

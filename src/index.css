@@ -1559,6 +1559,14 @@ button {
     0 18px 34px rgba(5, 150, 105, 0.16);
 }
 
+.value-chip.reading {
+  border-color: #2563eb;
+  background: #eff6ff;
+  box-shadow:
+    0 0 0 7px rgba(37, 99, 235, 0.13),
+    0 18px 34px rgba(37, 99, 235, 0.16);
+}
+
 .value-chip.muted {
   opacity: 0.3;
   filter: saturate(0.4);
@@ -1593,9 +1601,15 @@ button {
 }
 
 .method-why-visual .method-box {
-  min-width: 300px;
+  min-width: 310px;
   min-height: 132px;
   padding: 14px;
+}
+
+.method-why-visual .method-box strong {
+  max-width: 280px;
+  font-size: 21px;
+  overflow-wrap: anywhere;
 }
 
 .method-why-visual .call-chip-row {
@@ -1603,13 +1617,13 @@ button {
 }
 
 .method-why-visual .call-chip-row .value-chip {
-  min-width: 90px;
+  min-width: 112px;
   min-height: 62px;
   padding: 8px 10px;
 }
 
 .method-why-visual .value-chip strong {
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .inner-return,
@@ -1652,11 +1666,34 @@ button {
 }
 
 .argument-visual {
-  gap: 18px;
+  gap: 12px;
+}
+
+.argument-visual > .value-chip {
+  min-width: 130px;
+  padding-right: 12px;
+  padding-left: 12px;
 }
 
 .argument-visual .method-box {
-  min-width: 265px;
+  min-width: 238px;
+  padding: 14px;
+}
+
+.argument-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.argument-results .value-chip {
+  min-width: 168px;
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.argument-results .value-chip strong {
+  font-size: 17px;
 }
 
 .return-visual {
