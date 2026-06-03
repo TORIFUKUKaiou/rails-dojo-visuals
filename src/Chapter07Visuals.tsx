@@ -63,17 +63,25 @@ export const LESSONS_07: readonly Lesson07[] = [
       '  "こんにちは、#{name}さん！"',
       'end',
       '',
-      'puts make_greeting("田中")',
-      'puts make_greeting("佐藤")',
-      'puts make_greeting("鈴木")',
+      'msg1 = make_greeting("田中")',
+      'puts msg1',
+      '',
+      'msg2 = make_greeting("佐藤")',
+      'puts msg2',
+      '',
+      'msg3 = make_greeting("鈴木")',
+      'puts msg3',
     ],
     steps: [
       { line: 0, message: 'まず、挨拶を作る処理に make_greeting という名前をつけます。' },
       { line: 1, message: 'name に入った値を使って、挨拶の文字列を組み立てる処理です。' },
       { line: 2, message: 'end までが、メソッドとしてまとめた処理の範囲です。' },
-      { line: 4, message: '田中さん用の挨拶を、同じメソッドから作ります。', console: ['こんにちは、田中さん！'] },
-      { line: 5, message: '呼び出すときの値だけを変えると、佐藤さん用になります。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
-      { line: 6, message: '同じ処理を再利用して、鈴木さん用の挨拶も作れます。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！', 'こんにちは、鈴木さん！'] },
+      { line: 4, message: '田中さん用の挨拶を作り、戻り値を msg1 に入れます。' },
+      { line: 5, message: 'msg1 の中身を puts で表示します。', console: ['こんにちは、田中さん！'] },
+      { line: 7, message: '呼び出す値を変えて、佐藤さん用の戻り値を msg2 に入れます。', console: ['こんにちは、田中さん！'] },
+      { line: 8, message: 'msg2 の中身を puts で表示します。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
+      { line: 10, message: '同じ処理を再利用して、鈴木さん用の戻り値を msg3 に入れます。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
+      { line: 11, message: 'msg3 の中身を puts で表示します。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！', 'こんにちは、鈴木さん！'] },
     ],
   },
   {
@@ -88,14 +96,16 @@ export const LESSONS_07: readonly Lesson07[] = [
       '  "こんにちは！"',
       'end',
       '',
-      'puts make_message',
+      'msg = make_message',
+      'puts msg',
     ],
     steps: [
       { line: 0, message: 'def はメソッドを作る合図です。この時点では、まだ表示は起きません。' },
       { line: 2, message: 'end まで読んで、make_message の定義ができました。まだ実行結果は空です。' },
-      { line: 4, message: 'puts make_message で、外側からメソッドを呼び出します。' },
+      { line: 4, message: 'msg = make_message で、外側からメソッドを呼び出します。' },
       { line: 1, message: '呼び出されたので、メソッドの中へ入り、文字列を戻り値として返します。' },
-      { line: 4, message: '外側の puts が、返ってきた文字列を画面に表示します。', console: ['こんにちは！'] },
+      { line: 4, message: '返ってきた文字列が、外側の変数 msg に入ります。' },
+      { line: 5, message: 'puts msg で、msg の中身を画面に表示します。', console: ['こんにちは！'] },
     ],
   },
   {
@@ -110,18 +120,24 @@ export const LESSONS_07: readonly Lesson07[] = [
       '  "こんにちは、#{name}さん！"',
       'end',
       '',
-      'puts make_greeting("田中")',
-      'puts make_greeting("佐藤")',
+      'msg1 = make_greeting("田中")',
+      'puts msg1',
+      '',
+      'msg2 = make_greeting("佐藤")',
+      'puts msg2',
     ],
     steps: [
       { line: 0, message: 'name は、外から渡された値を受け取るための変数です。' },
       { line: 4, message: '呼び出し側から "田中" を渡します。' },
       { line: 0, message: 'メソッドの中では、name に "田中" が入った状態になります。' },
       { line: 1, message: 'name を使って、田中さん用の文字列を作って返します。' },
-      { line: 4, message: '返ってきた文字列を puts が表示します。', console: ['こんにちは、田中さん！'] },
-      { line: 5, message: '次は "佐藤" を渡します。同じメソッドでも、材料が変わります。', console: ['こんにちは、田中さん！'] },
-      { line: 1, message: 'name が "佐藤" になり、佐藤さん用の文字列を返します。', console: ['こんにちは、田中さん！'] },
-      { line: 5, message: '2回目の表示が追加されます。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
+      { line: 4, message: '返ってきた文字列が msg1 に入ります。' },
+      { line: 5, message: 'puts msg1 で、msg1 の中身を表示します。', console: ['こんにちは、田中さん！'] },
+      { line: 7, message: '次は "佐藤" を渡します。同じメソッドでも、材料が変わります。', console: ['こんにちは、田中さん！'] },
+      { line: 0, message: 'name が "佐藤" になり、佐藤さん用の処理に入ります。', console: ['こんにちは、田中さん！'] },
+      { line: 1, message: '佐藤さん用の文字列を戻り値として返します。', console: ['こんにちは、田中さん！'] },
+      { line: 7, message: '返ってきた文字列が msg2 に入ります。', console: ['こんにちは、田中さん！'] },
+      { line: 8, message: 'puts msg2 で、msg2 の中身を表示します。', console: ['こんにちは、田中さん！', 'こんにちは、佐藤さん！'] },
     ],
   },
   {
@@ -225,7 +241,8 @@ export const LESSONS_07: readonly Lesson07[] = [
       '  text',
       'end',
       '',
-      'puts get_message(message)',
+      'result = get_message(message)',
+      'puts result',
     ],
     steps: [
       { line: 0, message: '外側で message という変数を作ります。' },
@@ -233,7 +250,8 @@ export const LESSONS_07: readonly Lesson07[] = [
       { line: 6, message: '外側の message を、引数として get_message に渡します。' },
       { line: 2, message: '壁を越えた値が、メソッド内の text に入ります。' },
       { line: 3, message: 'text の値 "こんにちは" を戻り値として返します。' },
-      { line: 6, message: '外側の puts が、返ってきた文字列を表示します。', console: ['こんにちは'] },
+      { line: 6, message: '返ってきた文字列が、外側の result に入ります。' },
+      { line: 7, message: 'puts result で、result の中身を表示します。', console: ['こんにちは'] },
     ],
   },
 ];
@@ -279,8 +297,9 @@ function ValueChip({ label, value, active = false, muted = false }: { label: str
 
 function WhyMethodVisual({ step }: { step: number }) {
   const showMethod = step >= 0;
-  const activeCall = step >= 3 ? Math.min(step - 3, 2) : -1;
+  const activeCall = step >= 3 ? Math.min(Math.floor((step - 3) / 2), 2) : -1;
   const names = ['田中', '佐藤', '鈴木'];
+  const messageNames = ['msg1', 'msg2', 'msg3'];
 
   return (
     <div className="method-why-visual">
@@ -300,7 +319,12 @@ function WhyMethodVisual({ step }: { step: number }) {
         <div className="call-chip-row">
           {names.map((name, index) => (
             <div key={name}>
-              <ValueChip label="呼び出し" value={`"${name}"`} active={activeCall === index} muted={step < 3 || activeCall !== index} />
+              <ValueChip
+                label={messageNames[index]}
+                value={activeCall >= index ? `${name}さん用` : '-'}
+                active={activeCall === index}
+                muted={step < 3 || activeCall < index}
+              />
             </div>
           ))}
         </div>
@@ -320,28 +344,30 @@ function DefineCallVisual({ step }: { step: number }) {
         <ArrowRight size={44} />
       </motion.div>
       <div className="main-space">
-        <ValueChip label="外側" value="puts make_message" active={step === 2 || step === 4} muted={step < 2} />
+        <ValueChip label="外側" value="msg = make_message" active={step === 2 || step === 4} muted={step < 2} />
         <ValueChip label="戻り値" value='"こんにちは！"' active={step === 3 || step === 4} muted={step < 3} />
+        <ValueChip label="msg" value={step >= 4 ? '"こんにちは！"' : '-'} active={step === 4 || step === 5} muted={step < 4} />
       </div>
     </div>
   );
 }
 
 function ArgumentVisual({ step }: { step: number }) {
-  const value = step >= 5 ? '"佐藤"' : step >= 1 ? '"田中"' : '-';
-  const output = step >= 5 ? '佐藤さん用' : step >= 1 ? '田中さん用' : '待機中';
+  const value = step >= 6 ? '"佐藤"' : step >= 1 ? '"田中"' : '-';
+  const output = step >= 6 ? '佐藤さん用' : step >= 1 ? '田中さん用' : '待機中';
+  const resultName = step >= 6 ? 'msg2' : 'msg1';
 
   return (
     <div className="argument-visual">
-      <ValueChip label="呼び出し側の値" value={value} active={step === 1 || step === 5} muted={step < 1} />
+      <ValueChip label="呼び出し側の値" value={value} active={step === 1 || step === 6} muted={step < 1} />
       <motion.div className={`value-tunnel ${step >= 1 ? 'active' : ''}`}>
         <Package size={42} />
         <span>引数</span>
       </motion.div>
-      <MethodBox name="make_greeting(name)" subtitle="name が値を受け取る" active={step >= 2 && step <= 6} dimmed={step < 2}>
-        <ValueChip label="name" value={value} active={step === 2 || step === 6} muted={step < 2} />
+      <MethodBox name="make_greeting(name)" subtitle="name が値を受け取る" active={step >= 2 && step <= 8} dimmed={step < 2}>
+        <ValueChip label="name" value={value} active={step === 2 || step === 7} muted={step < 2} />
       </MethodBox>
-      <ValueChip label="戻り値" value={output} active={step === 3 || step === 6} muted={step < 3} />
+      <ValueChip label={resultName} value={output} active={step === 4 || step === 9} muted={step < 4} />
     </div>
   );
 }
@@ -406,6 +432,7 @@ function ScopeWallVisual({ step }: { step: number }) {
       <div className="scope-space outside">
         <span>外側</span>
         <ValueChip label="message" value='"こんにちは"' active={step === 0 || step === 2} muted={step < 0} />
+        <ValueChip label="result" value={step >= 5 ? '"こんにちは"' : '-'} active={step === 5 || step === 6} muted={step < 5} />
       </div>
       <motion.div className={`scope-wall ${step >= 1 ? 'active' : ''}`} animate={{ opacity: step >= 1 ? 1 : 0.34 }}>
         <BrickWall size={54} />

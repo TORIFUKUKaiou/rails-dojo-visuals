@@ -346,7 +346,7 @@ button {
 }
 
 .code-row.completed {
-  opacity: 0.68;
+  opacity: 0.9;
 }
 
 .code-row.active {
