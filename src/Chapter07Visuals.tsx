@@ -165,8 +165,11 @@ export const LESSONS_07: readonly Lesson07[] = [
     steps: [
       { line: 0, message: 'add は、2つの値 a と b を受け取るメソッドです。' },
       { line: 4, message: 'add(3, 5) を呼び出し、3 と 5 をメソッドへ渡します。' },
-      { line: 0, message: 'メソッド内では a = 3、b = 5 として扱われます。' },
-      { line: 1, message: '最後の式 a + b を計算します。結果は 8 です。' },
+      { line: 0, message: 'メソッド内の a に 3 が入ります。' },
+      { line: 0, message: 'メソッド内の b に 5 が入ります。' },
+      { line: 1, message: '最後の式 a + b を見ます。まだ計算結果にはなっていません。' },
+      { line: 1, message: 'a と b の中身を使うと、3 + 5 になります。' },
+      { line: 1, message: '3 + 5 を計算すると、戻り値は 8 になります。' },
       { line: 4, message: '戻り値 8 が外側へ戻り、result に代入されます。' },
       { line: 5, message: 'result の中身 8 を puts で表示します。', console: ['8'] },
     ],
@@ -227,9 +230,11 @@ export const LESSONS_07: readonly Lesson07[] = [
       { line: 4, message: 'make_total_message の中へ入り、price は 500 になります。' },
       { line: 5, message: '中から add_shipping_fee(price) を呼び出します。' },
       { line: 0, message: 'add_shipping_fee の中へ入り、送料を足す処理に移ります。' },
-      { line: 1, message: '500 + 200 を計算し、700 を戻り値として返します。' },
+      { line: 1, message: '最後の式 price + 200 を見ます。まだ計算結果にはなっていません。' },
+      { line: 1, message: 'price の中身を使うと、500 + 200 になります。' },
+      { line: 1, message: '500 + 200 を計算すると、戻り値は 700 になります。' },
       { line: 5, message: '戻ってきた 700 が total に入ります。' },
-      { line: 6, message: 'total を使って、合計金額の文章を作って返します。' },
+      { line: 6, message: 'total を使って、合計金額の文章を作り、戻り値にします。' },
       { line: 9, message: '戻り値の文章が message に入ります。' },
       { line: 10, message: '外側の puts が message を表示します。', console: ['合計金額は700円です'] },
     ],
@@ -406,20 +411,22 @@ function ArgumentVisual({ step }: { step: number }) {
 }
 
 function ReturnValueVisual({ step }: { step: number }) {
+  const calcText = step >= 6 ? '8' : step >= 5 ? '3 + 5' : 'a + b';
+
   return (
     <div className="return-visual">
       <div className="parameter-row">
-        <ValueChip label="a" value="3" active={step === 2} muted={step < 2} />
-        <ValueChip label="b" value="5" active={step === 2} muted={step < 2} />
+        <ValueChip label="a" value={step >= 2 ? '3' : '-'} active={step === 2} muted={step < 2} />
+        <ValueChip label="b" value={step >= 3 ? '5' : '-'} active={step === 3} muted={step < 3} />
       </div>
-      <MethodBox name="add(a, b)" subtitle="a + b を返す" active={step >= 1 && step <= 3} dimmed={step < 1}>
-        <div className={`calc-expression ${step === 3 ? 'active' : ''}`}>3 + 5 = 8</div>
+      <MethodBox name="add(a, b)" subtitle="a + b を返す" active={step >= 1 && step <= 6} dimmed={step < 1}>
+        <div className={`calc-expression ${step >= 4 && step <= 6 ? 'active' : ''}`}>{calcText}</div>
       </MethodBox>
-      <motion.div className={`return-arrow ${step >= 4 ? 'active' : ''}`}>
+      <motion.div className={`return-arrow ${step >= 7 ? 'active' : ''}`}>
         <Undo2 size={42} />
         <span>戻り値</span>
       </motion.div>
-      <ValueChip label="result" value={step >= 4 ? '8' : '-'} active={step === 4 || step === 5} muted={step < 4} />
+      <ValueChip label="result" value={step >= 7 ? '8' : '-'} active={step === 7 || step === 8} muted={step < 7} />
     </div>
   );
 }
@@ -442,19 +449,22 @@ function PutsReturnVisual({ step }: { step: number }) {
 }
 
 function MethodChainVisual({ step }: { step: number }) {
+  const shippingCalcText = step >= 6 ? '700' : step >= 5 ? '500 + 200' : 'price + 200';
+
   return (
     <div className="method-chain-visual">
-      <MethodBox name="make_total_message(price)" subtitle="文章を作る" active={step >= 1 && step <= 6} dimmed={step < 1}>
-        <ValueChip label="price" value="500" active={step === 1} muted={step < 1} />
-        <ValueChip label="total" value={step >= 5 ? '700' : '-'} active={step === 5} muted={step < 5} />
+      <MethodBox name="make_total_message(price)" subtitle="文章を作る" active={step >= 1 && step <= 8} dimmed={step < 1}>
+        <ValueChip label="price" value={step >= 1 ? '500' : '-'} active={step === 1} muted={step < 1} />
+        <ValueChip label="total" value={step >= 7 ? '700' : '-'} active={step === 7} muted={step < 7} />
+        <ValueChip label="戻り値" value={step >= 8 ? '"合計金額は700円です"' : '-'} active={step === 8} muted={step < 8} />
       </MethodBox>
-      <motion.div className={`chain-connector ${step >= 2 && step <= 5 ? 'active' : ''}`}>
+      <motion.div className={`chain-connector ${step >= 2 && step <= 7 ? 'active' : ''}`}>
         <Waypoints size={48} />
       </motion.div>
-      <MethodBox name="add_shipping_fee(price)" subtitle="送料を足す" active={step >= 3 && step <= 4} dimmed={step < 3}>
-        <div className={`calc-expression ${step === 4 ? 'active' : ''}`}>500 + 200 = 700</div>
+      <MethodBox name="add_shipping_fee(price)" subtitle="送料を足す" active={step >= 3 && step <= 6} dimmed={step < 3}>
+        <div className={`calc-expression ${step >= 4 && step <= 6 ? 'active' : ''}`}>{shippingCalcText}</div>
       </MethodBox>
-      <ValueChip label="message" value={step >= 7 ? '"合計金額は700円です"' : '-'} active={step === 7 || step === 8} muted={step < 7} />
+      <ValueChip label="message" value={step >= 9 ? '"合計金額は700円です"' : '-'} active={step === 9 || step === 10} muted={step < 9} />
     </div>
   );
 }

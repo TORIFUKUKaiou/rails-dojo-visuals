@@ -1734,6 +1734,15 @@ button {
   min-width: 290px;
 }
 
+.method-chain-visual .method-box .value-chip {
+  min-height: 56px;
+  padding: 8px 12px;
+}
+
+.method-chain-visual .method-box .value-chip strong {
+  font-size: 18px;
+}
+
 .chain-connector {
   width: 62px;
 }
