@@ -110,6 +110,7 @@ export const LESSONS_07: readonly Lesson07[] = [
       { line: 2, message: 'end まで読んで、make_message の定義ができました。まだ実行結果は空です。' },
       { line: 4, message: 'msg = make_message で、外側からメソッドを呼び出します。' },
       { line: 1, message: '呼び出されたので、メソッドの中へ入り、文字列を戻り値として返します。' },
+      { line: 4, message: '戻り値が外側へ戻ってきました。まだ msg は空です。' },
       { line: 4, message: '返ってきた文字列が、外側の変数 msg に入ります。' },
       { line: 5, message: 'puts msg で、msg の中身を画面に表示します。', console: ['こんにちは！'] },
     ],
@@ -372,9 +373,9 @@ function DefineCallVisual({ step }: { step: number }) {
         <ArrowRight size={44} />
       </motion.div>
       <div className="main-space">
-        <ValueChip label="外側" value="msg = make_message" active={step === 2 || step === 4} muted={step < 2} />
+        <ValueChip label="外側" value="msg = make_message" active={step === 2 || step === 4 || step === 5} muted={step < 2} />
         <ValueChip label="戻り値" value='"こんにちは！"' active={step === 3 || step === 4} muted={step < 3} />
-        <ValueChip label="msg" value={step >= 4 ? '"こんにちは！"' : '-'} active={step === 4 || step === 5} muted={step < 4} />
+        <ValueChip label="msg" value={step >= 5 ? '"こんにちは！"' : '-'} active={step === 5 || step === 6} muted={step < 5} />
       </div>
     </div>
   );
