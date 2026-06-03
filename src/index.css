@@ -1427,6 +1427,362 @@ button {
   color: #b91c1c;
 }
 
+/* ───── Method visualizer (Ch07) ───── */
+
+.method-why-visual,
+.call-flow-visual,
+.argument-visual,
+.return-visual,
+.puts-return-visual,
+.method-chain-visual,
+.scope-wall-visual {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.method-why-visual,
+.call-flow-visual,
+.argument-visual,
+.return-visual,
+.method-chain-visual,
+.scope-wall-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.repeat-stack,
+.method-call-stack,
+.main-space,
+.parameter-row,
+.compare-lane {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.repeat-card {
+  display: grid;
+  min-width: 178px;
+  min-height: 74px;
+  padding: 14px 16px;
+  border: 3px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.repeat-card.active {
+  border-color: #2563eb;
+  background: #dbeafe;
+  box-shadow:
+    0 0 0 8px rgba(37, 99, 235, 0.12),
+    0 18px 36px rgba(37, 99, 235, 0.18);
+}
+
+.repeat-card span,
+.method-box span,
+.value-chip span,
+.return-arrow span,
+.value-tunnel span,
+.chain-connector span,
+.scope-space > span {
+  color: #475569;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.repeat-card strong {
+  font-size: 24px;
+  font-weight: 950;
+}
+
+.method-box {
+  display: grid;
+  min-width: 250px;
+  min-height: 150px;
+  place-items: center;
+  padding: 18px;
+  border: 4px solid #bae6fd;
+  border-radius: 8px;
+  background: #f0f9ff;
+  box-shadow: 0 18px 36px rgba(2, 132, 199, 0.14);
+  gap: 9px;
+  text-align: center;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.method-box.active {
+  border-color: #0284c7;
+  background: #e0f2fe;
+  box-shadow:
+    0 0 0 8px rgba(2, 132, 199, 0.13),
+    0 22px 44px rgba(2, 132, 199, 0.2);
+}
+
+.method-box.dimmed {
+  filter: saturate(0.55);
+}
+
+.method-box strong {
+  color: #075985;
+  font-size: 23px;
+  font-weight: 950;
+  line-height: 1.25;
+}
+
+.value-chip {
+  display: grid;
+  min-width: 142px;
+  min-height: 70px;
+  place-items: center;
+  padding: 11px 16px;
+  border: 3px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+
+.value-chip.active {
+  border-color: #059669;
+  background: #ecfdf5;
+  box-shadow:
+    0 0 0 7px rgba(5, 150, 105, 0.12),
+    0 18px 34px rgba(5, 150, 105, 0.16);
+}
+
+.value-chip.muted {
+  opacity: 0.3;
+  filter: saturate(0.4);
+}
+
+.value-chip strong {
+  color: #0f172a;
+  font-size: 22px;
+  font-weight: 950;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.call-chip-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.call-chip-row .value-chip {
+  min-width: 112px;
+}
+
+.method-why-visual {
+  gap: 14px;
+}
+
+.method-why-visual .repeat-card {
+  min-width: 150px;
+  min-height: 66px;
+  padding: 12px 14px;
+}
+
+.method-why-visual .method-box {
+  min-width: 300px;
+  min-height: 132px;
+  padding: 14px;
+}
+
+.method-why-visual .call-chip-row {
+  gap: 8px;
+}
+
+.method-why-visual .call-chip-row .value-chip {
+  min-width: 90px;
+  min-height: 62px;
+  padding: 8px 10px;
+}
+
+.method-why-visual .value-chip strong {
+  font-size: 18px;
+}
+
+.inner-return,
+.calc-expression {
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 950;
+  opacity: 0.38;
+}
+
+.inner-return.active,
+.calc-expression.active {
+  opacity: 1;
+  background: #be123c;
+  box-shadow: 0 16px 30px rgba(190, 18, 60, 0.22);
+}
+
+.jump-arrow,
+.return-arrow,
+.value-tunnel,
+.chain-connector,
+.scope-wall {
+  display: grid;
+  place-items: center;
+  color: #64748b;
+  font-weight: 900;
+  text-align: center;
+}
+
+.jump-arrow.active,
+.return-arrow.active,
+.value-tunnel.active,
+.chain-connector.active,
+.scope-wall.active {
+  color: #0f172a;
+}
+
+.argument-visual {
+  gap: 18px;
+}
+
+.argument-visual .method-box {
+  min-width: 265px;
+}
+
+.return-visual {
+  flex-direction: column;
+}
+
+.parameter-row {
+  flex-direction: row;
+}
+
+.return-arrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.puts-return-visual {
+  display: grid;
+  place-items: center;
+}
+
+.compare-lane {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(260px, 1fr));
+  gap: 22px;
+  width: min(700px, 100%);
+}
+
+.compare-lane .method-box {
+  min-height: 250px;
+}
+
+.method-chain-visual {
+  flex-wrap: wrap;
+}
+
+.method-chain-visual .method-box {
+  min-width: 290px;
+}
+
+.chain-connector {
+  width: 62px;
+}
+
+.method-chain-visual > .value-chip {
+  min-width: 240px;
+}
+
+.scope-wall-visual {
+  align-items: stretch;
+  gap: 12px;
+}
+
+.scope-space {
+  display: flex;
+  min-width: 210px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px;
+  border: 3px solid #e2e8f0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.scope-space.outside {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.scope-space.inside {
+  border-color: #fed7aa;
+  background: #fff7ed;
+}
+
+.scope-space .method-box {
+  min-width: 190px;
+  min-height: 160px;
+  padding: 14px;
+}
+
+.scope-space .method-box strong {
+  font-size: 20px;
+}
+
+.scope-space .value-chip {
+  min-width: 150px;
+}
+
+.scope-wall {
+  min-width: 92px;
+  padding: 18px 10px;
+  border: 4px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  gap: 9px;
+}
+
+.scope-wall.active {
+  border-color: #ea580c;
+  background: #ffedd5;
+  box-shadow:
+    0 0 0 8px rgba(234, 88, 12, 0.1),
+    0 18px 34px rgba(234, 88, 12, 0.14);
+}
+
+.scope-wall strong {
+  font-size: 16px;
+  font-weight: 950;
+}
+
+.scope-pass {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 950;
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.22);
+}
+
 @keyframes sweep {
   0% {
     transform: translateX(-14%);

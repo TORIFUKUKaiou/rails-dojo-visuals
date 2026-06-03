@@ -17,9 +17,11 @@ import {
   RotateCcw,
   Sigma,
   Sparkles,
+  SquareFunction,
   Database,
 } from 'lucide-react';
 import { LESSONS_06, Chapter06Visual, type LessonId06, isLessonId06 } from './Chapter06Visuals';
+import { LESSONS_07, Chapter07Visual, type LessonId07, isLessonId07 } from './Chapter07Visuals';
 
 type LessonId05 =
   | 'why_array'
@@ -32,7 +34,7 @@ type LessonId05 =
   | 'range'
   | 'condition';
 
-type LessonId = LessonId05 | LessonId06;
+type LessonId = LessonId05 | LessonId06 | LessonId07;
 
 type Lesson = {
   id: LessonId;
@@ -312,8 +314,16 @@ const accentClasses: Record<string, { bg: string; text: string; ring: string; so
   violet: { bg: 'bg-violet-600', text: 'text-violet-700', ring: 'ring-violet-300', soft: 'bg-violet-50', border: 'border-violet-200' },
 };
 
+type ChapterId = '05' | '06' | '07';
+
+const CHAPTER_META: Record<ChapterId, { week: string; title: string; badge: string; firstLesson: LessonId; icon: React.ComponentType<{ size?: number; className?: string }> }> = {
+  '05': { week: 'Week 05', title: '配列を目で見る', badge: '第5回 配列', firstLesson: 'why_array', icon: Brackets },
+  '06': { week: 'Week 06', title: 'ハッシュを目で見る', badge: '第6回 ハッシュ', firstLesson: 'why_hash', icon: Database },
+  '07': { week: 'Week 07', title: 'メソッドを目で見る', badge: '第7回 メソッド', firstLesson: 'why_method', icon: SquareFunction },
+};
+
 function App() {
-  const [activeChapter, setActiveChapter] = useState<'05' | '06'>('05');
+  const [activeChapter, setActiveChapter] = useState<ChapterId>('05');
   const [lessonId, setLessonId] = useState<LessonId>('why_array');
   const [step, setStep] = useState(-1);
   const [playing, setPlaying] = useState(false);
@@ -321,7 +331,9 @@ function App() {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const lessons = useMemo<readonly Lesson[]>(() => {
-    return activeChapter === '05' ? LESSONS_05 : LESSONS_06;
+    if (activeChapter === '05') return LESSONS_05;
+    if (activeChapter === '06') return LESSONS_06;
+    return LESSONS_07;
   }, [activeChapter]);
 
   const lesson = useMemo(() => lessons.find((item) => item.id === lessonId) ?? lessons[0], [lessons, lessonId]);
@@ -368,12 +380,15 @@ function App() {
     setPlaying(false);
   };
 
-  const switchChapter = (chapter: '05' | '06') => {
+  const switchChapter = (chapter: ChapterId) => {
     setActiveChapter(chapter);
-    setLessonId(chapter === '05' ? 'why_array' : 'why_hash');
+    setLessonId(CHAPTER_META[chapter].firstLesson);
     setStep(-1);
     setPlaying(false);
   };
+
+  const chapterMeta = CHAPTER_META[activeChapter];
+  const ChapterIcon = chapterMeta.icon;
 
   return (
     <main className="app-shell">
@@ -382,8 +397,8 @@ function App() {
       <section className="stage">
         <header className="stage-header">
           <div>
-            <div className="eyebrow">Rails Dojo Year 1 / {activeChapter === '05' ? 'Week 05' : 'Week 06'}</div>
-            <h1>{activeChapter === '05' ? '配列を目で見る' : 'ハッシュを目で見る'}</h1>
+            <div className="eyebrow">Rails Dojo Year 1 / {chapterMeta.week}</div>
+            <h1>{chapterMeta.title}</h1>
           </div>
 
           <div className="chapter-tabs">
@@ -401,11 +416,18 @@ function App() {
               <Database size={14} />
               <span>第6回 ハッシュ</span>
             </button>
+            <button
+              onClick={() => switchChapter('07')}
+              className={`chapter-tab ${activeChapter === '07' ? 'selected' : ''}`}
+            >
+              <SquareFunction size={14} />
+              <span>第7回 メソッド</span>
+            </button>
           </div>
 
           <div className={`week-badge ${accent.soft} ${accent.border}`}>
-            {activeChapter === '05' ? <Brackets size={18} /> : <Database size={18} />}
-            <span>{activeChapter === '05' ? '第5回 配列' : '第6回 ハッシュ'}</span>
+            <ChapterIcon size={18} />
+            <span>{chapterMeta.badge}</span>
           </div>
         </header>
 
@@ -523,7 +545,7 @@ function LessonRail({
   activeId: LessonId;
   onSelect: (id: LessonId) => void;
   lessons: readonly Lesson[];
-  activeChapter: '05' | '06';
+  activeChapter: ChapterId;
 }) {
   return (
     <nav className="lesson-rail" aria-label="レッスン選択">
@@ -572,6 +594,9 @@ function LessonVisual({ lesson, step }: { lesson: Lesson; step: number }) {
     default:
       if (isLessonId06(lesson.id)) {
         return <Chapter06Visual lessonId={lesson.id} step={step} />;
+      }
+      if (isLessonId07(lesson.id)) {
+        return <Chapter07Visual lessonId={lesson.id} step={step} />;
       }
       return null;
   }
