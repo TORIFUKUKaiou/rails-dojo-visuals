@@ -19,6 +19,7 @@ export type LessonId07 =
   | 'return_value'
   | 'puts_return'
   | 'method_chain'
+  | 'scope_error'
   | 'scope_wall';
 
 export type Lesson07 = {
@@ -43,6 +44,7 @@ const LESSON_07_IDS: readonly LessonId07[] = [
   'return_value',
   'puts_return',
   'method_chain',
+  'scope_error',
   'scope_wall',
 ];
 
@@ -240,9 +242,34 @@ export const LESSONS_07: readonly Lesson07[] = [
     ],
   },
   {
+    id: 'scope_error',
+    short: '壁NG',
+    title: '見えない壁は越えられない',
+    lead: 'メソッドの中から、外側の変数を直接使おうとすると NameError になります。',
+    icon: BrickWall,
+    accent: 'orange',
+    code: [
+      'message = "こんにちは"',
+      '',
+      'def get_message',
+      '  message',
+      'end',
+      '',
+      'result = get_message',
+      'puts result',
+    ],
+    steps: [
+      { line: 0, message: '外側で message という変数を作ります。' },
+      { line: 2, message: 'get_message は引数なしのメソッドです。' },
+      { line: 6, message: '外側から get_message を呼び出します。' },
+      { line: 3, message: 'メソッド内で message を使おうとします。' },
+      { line: 3, message: '外側の message はメソッド内から直接見えないため、NameError になります。', console: ['NameError'] },
+    ],
+  },
+  {
     id: 'scope_wall',
-    short: '壁',
-    title: 'スコープの見えない壁',
+    short: '壁OK',
+    title: '引数で壁を越える',
     lead: 'メソッドの外の変数は、中から直接見えません。使いたい値は引数として渡します。',
     icon: BrickWall,
     accent: 'orange',
@@ -299,17 +326,19 @@ function ValueChip({
   value,
   active = false,
   reading = false,
+  danger = false,
   muted = false,
 }: {
   label: string;
   value: string;
   active?: boolean;
   reading?: boolean;
+  danger?: boolean;
   muted?: boolean;
 }) {
   return (
     <motion.div
-      className={`value-chip ${active ? 'active' : ''} ${reading ? 'reading' : ''} ${muted ? 'muted' : ''}`}
+      className={`value-chip ${active ? 'active' : ''} ${reading ? 'reading' : ''} ${danger ? 'danger' : ''} ${muted ? 'muted' : ''}`}
       animate={{ scale: active || reading ? [1, 1.08, 1] : 1 }}
       transition={{ duration: 0.4 }}
     >
@@ -469,12 +498,41 @@ function MethodChainVisual({ step }: { step: number }) {
   );
 }
 
+function ScopeErrorVisual({ step }: { step: number }) {
+  return (
+    <div className="scope-wall-visual">
+      <div className="scope-space outside">
+        <span>外側</span>
+        <ValueChip label="message" value={step >= 0 ? '"こんにちは"' : '-'} active={step === 0 || step === 2} muted={step < 0} />
+        <ValueChip label="result" value="-" muted />
+      </div>
+      <motion.div className={`scope-wall ${step >= 1 ? 'active' : ''}`} animate={{ opacity: step >= 1 ? 1 : 0.34 }}>
+        <BrickWall size={54} />
+        <strong>見えない壁</strong>
+      </motion.div>
+      <div className="scope-space inside">
+        <span>メソッド内</span>
+        <MethodBox name="get_message" subtitle="引数なし" active={step >= 1} dimmed={step < 1}>
+          <ValueChip label="message" value={step >= 4 ? 'NameError' : '-'} active={step === 3} danger={step >= 4} muted={step < 3} />
+        </MethodBox>
+      </div>
+      <AnimatePresence>
+        {step >= 3 && (
+          <motion.div className="scope-pass blocked" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+            直接は見えない
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 function ScopeWallVisual({ step }: { step: number }) {
   return (
     <div className="scope-wall-visual">
       <div className="scope-space outside">
         <span>外側</span>
-        <ValueChip label="message" value='"こんにちは"' active={step === 0 || step === 2} muted={step < 0} />
+        <ValueChip label="message" value={step >= 0 ? '"こんにちは"' : '-'} active={step === 0 || step === 2} muted={step < 0} />
         <ValueChip label="result" value={step >= 5 ? '"こんにちは"' : '-'} active={step === 5 || step === 6} muted={step < 5} />
       </div>
       <motion.div className={`scope-wall ${step >= 1 ? 'active' : ''}`} animate={{ opacity: step >= 1 ? 1 : 0.34 }}>
@@ -512,6 +570,8 @@ export function Chapter07Visual({ lessonId, step }: { lessonId: LessonId07; step
       return <PutsReturnVisual step={step} />;
     case 'method_chain':
       return <MethodChainVisual step={step} />;
+    case 'scope_error':
+      return <ScopeErrorVisual step={step} />;
     case 'scope_wall':
       return <ScopeWallVisual step={step} />;
     default:
