@@ -83,12 +83,7 @@ export const LESSONS_08: readonly Lesson08[] = [
       { line: 3, message: 'メソッドの中で article["title"] を取り出して文章を作ります。' },
       { line: 6, message: 'ハッシュをメソッドに渡して呼び出します。', console: ['記事タイトル：はじめての記事'] },
       { line: 8, message: 'class Article から、データと処理をまとめる Article クラスを定義します。', console: ['記事タイトル：はじめての記事'] },
-      { line: 9, message: 'initialize では、記事ごとのタイトルと本文を受け取ります。', console: ['記事タイトル：はじめての記事'] },
-      { line: 10, message: '@title にタイトルを保存します。データをインスタンスの中へ持たせます。', console: ['記事タイトル：はじめての記事'] },
-      { line: 11, message: '@body に本文を保存します。これも Article の中のデータです。', console: ['記事タイトル：はじめての記事'] },
-      { line: 14, message: 'title_message は、Article の中にまとまった処理です。', console: ['記事タイトル：はじめての記事'] },
-      { line: 15, message: '@title を使って、タイトル表示用の文章を作ります。', console: ['記事タイトル：はじめての記事'] },
-      { line: 17, message: 'end までが Article クラスです。データとメソッドが1つの範囲にまとまりました。', console: ['記事タイトル：はじめての記事'] },
+      { line: 17, message: 'ここでは細かい中身より、end までが Article クラスの範囲だと眺めます。', console: ['記事タイトル：はじめての記事'] },
     ],
   },
   {
@@ -373,8 +368,6 @@ function ArticleInstance({
 function WhyClassVisual({ step }: { step: number }) {
   const showClass = step >= 4;
   const definingClass = step >= 4;
-  const activeData = step >= 6 && step <= 7;
-  const activeMethod = step >= 8 && step <= 9;
   return (
     <div className="class-why-visual">
       <motion.div className="separate-side" animate={{ opacity: showClass ? 0.32 : 1, x: showClass ? -24 : 0 }}>
@@ -397,8 +390,8 @@ function WhyClassVisual({ step }: { step: number }) {
       >
         <span>Article クラス</span>
         <div className="class-bundle-grid">
-          <DataChip label="データ" value="@title / @body" active={activeData} muted={!showClass} />
-          <MiniMethodBox name="title_message" subtitle="タイトルを表示する処理" active={activeMethod} dimmed={!showClass} />
+          <DataChip label="データ" value="@title / @body" active={showClass} muted={!showClass} />
+          <MiniMethodBox name="title_message" subtitle="タイトルを表示する処理" active={showClass} dimmed={!showClass} />
         </div>
       </motion.div>
     </div>
