@@ -19,9 +19,11 @@ import {
   Sparkles,
   SquareFunction,
   Database,
+  Box,
 } from 'lucide-react';
 import { LESSONS_06, Chapter06Visual, type LessonId06, isLessonId06 } from './Chapter06Visuals';
 import { LESSONS_07, Chapter07Visual, type LessonId07, isLessonId07 } from './Chapter07Visuals';
+import { LESSONS_08, Chapter08Visual, type LessonId08, isLessonId08 } from './Chapter08Visuals';
 
 type LessonId05 =
   | 'why_array'
@@ -34,7 +36,7 @@ type LessonId05 =
   | 'range'
   | 'condition';
 
-type LessonId = LessonId05 | LessonId06 | LessonId07;
+type LessonId = LessonId05 | LessonId06 | LessonId07 | LessonId08;
 
 type Lesson = {
   id: LessonId;
@@ -314,12 +316,13 @@ const accentClasses: Record<string, { bg: string; text: string; ring: string; so
   violet: { bg: 'bg-violet-600', text: 'text-violet-700', ring: 'ring-violet-300', soft: 'bg-violet-50', border: 'border-violet-200' },
 };
 
-type ChapterId = '05' | '06' | '07';
+type ChapterId = '05' | '06' | '07' | '08';
 
 const CHAPTER_META: Record<ChapterId, { week: string; title: string; badge: string; firstLesson: LessonId; icon: React.ComponentType<{ size?: number; className?: string }> }> = {
   '05': { week: 'Week 05', title: '配列を目で見る', badge: '第5回 配列', firstLesson: 'why_array', icon: Brackets },
   '06': { week: 'Week 06', title: 'ハッシュを目で見る', badge: '第6回 ハッシュ', firstLesson: 'why_hash', icon: Database },
   '07': { week: 'Week 07', title: 'メソッドを目で見る', badge: '第7回 メソッド', firstLesson: 'why_method', icon: SquareFunction },
+  '08': { week: 'Week 08', title: 'クラスを目で見る', badge: '第8回 クラス', firstLesson: 'why_class', icon: Box },
 };
 
 function App() {
@@ -333,7 +336,8 @@ function App() {
   const lessons = useMemo<readonly Lesson[]>(() => {
     if (activeChapter === '05') return LESSONS_05;
     if (activeChapter === '06') return LESSONS_06;
-    return LESSONS_07;
+    if (activeChapter === '07') return LESSONS_07;
+    return LESSONS_08;
   }, [activeChapter]);
 
   const lesson = useMemo(() => lessons.find((item) => item.id === lessonId) ?? lessons[0], [lessons, lessonId]);
@@ -422,6 +426,13 @@ function App() {
             >
               <SquareFunction size={14} />
               <span>第7回 メソッド</span>
+            </button>
+            <button
+              onClick={() => switchChapter('08')}
+              className={`chapter-tab ${activeChapter === '08' ? 'selected' : ''}`}
+            >
+              <Box size={14} />
+              <span>第8回 クラス</span>
             </button>
           </div>
 
@@ -597,6 +608,9 @@ function LessonVisual({ lesson, step }: { lesson: Lesson; step: number }) {
       }
       if (isLessonId07(lesson.id)) {
         return <Chapter07Visual lessonId={lesson.id} step={step} />;
+      }
+      if (isLessonId08(lesson.id)) {
+        return <Chapter08Visual lessonId={lesson.id} step={step} />;
       }
       return null;
   }
